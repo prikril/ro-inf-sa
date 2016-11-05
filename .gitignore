@@ -325,3 +325,12 @@ __pycache__/
 
 ### VisualStudio Patch ###
 build/
+
+
+### Meteor
+node_modules/
+.meteor/local
+npm-debug.log
+typings
+.idea
+.meteor/local
