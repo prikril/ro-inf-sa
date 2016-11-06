@@ -1,14 +1,20 @@
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { AppComponent } from "./app.component";
-import { DemoComponent } from "./demo/demo.component";
-import { DemoDataService } from "./demo/demo-data.service";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { IndexComponent } from './index/index.component';
+import { CreateComponent } from './create/create.component'
+import { RouterModule } from '@angular/router';
+import { MaterialModule } from '@angular/material';
+
+
+import { routes } from './app.routes';
 
 @NgModule({
   // Components, Pipes, Directive
   declarations: [
     AppComponent,
-    DemoComponent
+    IndexComponent,
+    CreateComponent
   ],
   // Entry Components
   entryComponents: [
@@ -16,11 +22,12 @@ import { DemoDataService } from "./demo/demo-data.service";
   ],
   // Providers
   providers: [
-    DemoDataService
   ],
   // Modules
   imports: [
-    BrowserModule
+    BrowserModule,
+      MaterialModule.forRoot(),
+    RouterModule.forRoot(routes)
   ],
   // Main Component
   bootstrap: [ AppComponent ]
