@@ -4,38 +4,10 @@ import {
     FormGroup,
     Validators, FormArray
 } from '@angular/forms';
-import { Quiz } from '../../../../both/models/quiz.model';
+import { Quiz, Question, Answer } from '../../../../both/models/quiz.model';
+import { QuizCollection } from '../../../../both/collections/quiz.collection';
 import template from './create.component.html';
 import style from "./create.component.scss";
-
-interface QuizFormModel {
-    name: string;
-    questions: QuestionFormModel[];
-}
-
-interface QuestionFormModel {
-    question: string;
-    answerOne: string;
-    answerOneIsCorret: boolean;
-    answerTwo: string;
-    answerTwoIsCorret: boolean;
-    answerThree: string;
-    answerThreeIsCorret: boolean;
-    answerFour: string;
-    answerFourIsCorret: boolean;
-}
-/*
-interface AnswerFormModel {
-    answerOne: string;
-    answerOneIsCorret: boolean;
-    answerTwo: string;
-    answerTwoIsCorret: boolean;
-    answerThree: string;
-    answerThreeIsCorret: boolean;
-    answerFour: string;
-    answerFourIsCorret: boolean;
-}
-*/
 
 @Component({
     selector: 'create',
@@ -63,31 +35,23 @@ export class CreateComponent implements OnInit {
     initQuestionFormGroup() {
         return this.formBuilder.group({
             question: ['', Validators.required],
-            answerOne: ['', Validators.required, Validators.minLength(4)],
-            answerOneIsCorrect: [false, Validators.required],
-            answerTwo: ['', Validators.required],
-            answerTwoIsCorrect: [false, Validators.required],
-            answerThree: ['', Validators.required],
-            answerThreeIsCorrect: [false, Validators.required],
-            answerFour: ['', Validators.required],
-            answerFourIsCorrect: [false, Validators.required]
-        })
+            answers: this.initAnswerFormGroup()
+        });
     }
 
-    /*
-    initAnswerFormGroup() {
-        return this.formBuilder.group({
-            answerOne: ['', Validators.required, Validators.minLength(4)],
-            answerOneIsCorret: [false, Validators.required],
-            answerTwo: ['', Validators.required],
-            answerTwoIsCorret: [false, Validators.required],
-            answerThree: ['', Validators.required],
-            answerThreeIsCorret: [false, Validators.required],
-            answerFour: ['', Validators.required],
-            answerFourIsCorret: [false, Validators.required]
-        })
+
+    initAnswerFormGroup(): FormArray {
+        let answers: FormGroup[] = [];
+        for(let i = 0; i < 4; i++) {
+            answers.push(
+                this.formBuilder.group({
+                    answer: ['', Validators.required],
+                    right: [false, Validators.required]
+                })
+            )
+        }
+        return this.formBuilder.array(answers);
     }
-    */
 
     /**
      * Adds more questions to the form
@@ -97,7 +61,8 @@ export class CreateComponent implements OnInit {
         control.push(this.initQuestionFormGroup());
     }
 
-    save(model: QuizFormModel) {
+    save(model: Quiz) {
         console.log(model);
+        QuizCollection.insert(model);
     }
 }

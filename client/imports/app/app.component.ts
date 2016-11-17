@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import template from "./app.component.html";
 import style from "./app.component.scss";
+import { QuizCollection } from '../../../both/collections/quiz.collection';
 
 @Component({
     selector: "app",
@@ -10,4 +11,6 @@ import style from "./app.component.scss";
 export class AppComponent {
     constructor() {
     }
+
+
 }
