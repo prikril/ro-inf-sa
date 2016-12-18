@@ -3,7 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
-import { CreateComponent } from './create/create.component'
+import { CreateComponent } from './create/create.component';
+import { ListComponent } from './list/list.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 
@@ -15,7 +16,8 @@ import { routes } from './app.routes';
     declarations: [
         AppComponent,
         IndexComponent,
-        CreateComponent
+        CreateComponent,
+        ListComponent
     ],
     // Entry Components
     entryComponents: [
