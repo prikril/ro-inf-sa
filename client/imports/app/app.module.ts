@@ -11,6 +11,7 @@ import { MaterialModule } from '@angular/material';
 
 import { routes } from './app.routes';
 import { QuizMasterModule } from "./quizMaster/quizMaster.module";
+import {CompetitorModule} from "./competitor/competitor.module";
 
 @NgModule({
     // Components, Pipes, Directive
@@ -32,7 +33,8 @@ import { QuizMasterModule } from "./quizMaster/quizMaster.module";
         ReactiveFormsModule,
         MaterialModule.forRoot(),
         RouterModule.forRoot(routes),
-        QuizMasterModule
+        QuizMasterModule,
+        CompetitorModule
     ],
     // Main Component
     bootstrap: [AppComponent]
