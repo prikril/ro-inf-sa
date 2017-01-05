@@ -3,6 +3,7 @@ import { RouterModule} from '@angular/router';
 
 import { CreateComponent } from './create/create.component';
 import { ManageComponent } from './manage/manage.component';
+import { StartComponent } from './start/start.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@angular/material";
 import {BrowserModule} from "@angular/platform-browser";
@@ -11,7 +12,8 @@ import {BrowserModule} from "@angular/platform-browser";
     imports: [
         RouterModule.forChild([
             { path: 'master/create', component: CreateComponent },
-            { path: 'master/manage', component: ManageComponent }
+            { path: 'master/manage', component: ManageComponent },
+            { path: 'master/start', component: StartComponent }
         ]),
         FormsModule,
         ReactiveFormsModule,
@@ -21,7 +23,8 @@ import {BrowserModule} from "@angular/platform-browser";
     exports: [],
     declarations: [
         CreateComponent,
-        ManageComponent
+        ManageComponent,
+        StartComponent
     ],
     providers: [],
 })
