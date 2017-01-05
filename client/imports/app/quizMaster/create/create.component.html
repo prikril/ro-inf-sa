@@ -11,7 +11,7 @@
             <!-- Questions -->
             <h3>Questions</h3>
             <div formArrayName="questions">
-                <div *ngFor="let question of quizForm.controls.questions.controls; let i=index">
+                <div *ngFor="let question of quizForm.controls.questions.controls; let i=index" class="question">
                     <div [formGroupName]="i">
                         <md-input placeholder="Qustion" formControlName="question" class="full-width"></md-input>
                         <div formArrayName="answers">
@@ -28,6 +28,7 @@
         </md-card-content>
         <md-card-actions>
             <button type="submit" md-button [disabled]="!quizForm.valid">Save</button>
+            <button md-button (click)="addQuestion()">Add </button>
         </md-card-actions>
     </md-card>
 </form>
