@@ -1,15 +1,23 @@
 <md-sidenav-layout>
   <md-sidenav #sidenav mode="side" class="app-sidenav">
-    Sidenav
-    <a routerLink="/create">Create</a>
+      <md-list>
+          <md-list-item> <a routerLink="/master/create">Create</a> </md-list-item>
+          <md-list-item> <a routerLink="/master/manage">Manage</a> </md-list-item>
+          <md-list-item> <a routerLink="/master/start">Start</a> </md-list-item>
+      </md-list>
   </md-sidenav>
 
 
   <md-toolbar color="primary">
-    <button class="app-icon-button" (click)="sidenav.toggle()">
+    <!--<button class="app-icon-button" (click)="sidenav.toggle()">
       <i class="material-icons app-toolbar-menu">menu</i>
-    </button>
-    <a routerLink="/" class="toolbar-title">Quizza</a>
+    </button>-->
+      <ul>
+          <li><a routerLink="/" class="toolbar-title">Quizza</a></li>
+          <li><a routerLink="/master/create">Create</a></li>
+          <li><a routerLink="/master/manage">Manage</a></li>
+          <li><a routerLink="/master/start">Start</a></li>
+      </ul>
     <span class="fill-remaining-space"></span>
   </md-toolbar>
 
