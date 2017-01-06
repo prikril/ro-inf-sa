@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import template from './index.component.html';
-
+import template from './home.component.html';
 
 @Component({
-    selector: 'index',
+    selector: 'home',
     template
 })
-export class IndexComponent implements OnInit {
+export class HomeComponent implements OnInit {
     constructor() { }
 
     ngOnInit() { }

@@ -2,13 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { IndexComponent } from './index/index.component';
-import { CreateComponent } from './quizMaster/create/create.component';
-import { ListComponent } from './list/list.component';
+import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
-
-
 import { routes } from './app.routes';
 import { QuizMasterModule } from "./quizMaster/quizMaster.module";
 import {CompetitorModule} from "./competitor/competitor.module";
@@ -17,8 +13,7 @@ import {CompetitorModule} from "./competitor/competitor.module";
     // Components, Pipes, Directive
     declarations: [
         AppComponent,
-        IndexComponent,
-        ListComponent
+        HomeComponent
     ],
     // Entry Components
     entryComponents: [

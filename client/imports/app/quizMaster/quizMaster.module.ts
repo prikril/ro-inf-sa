@@ -4,7 +4,7 @@ import { RouterModule} from '@angular/router';
 import { CreateComponent } from './create/create.component';
 import { ManageComponent } from './manage/manage.component';
 import { StartComponent } from './start/start.component';
-import { IndexComponent } from './index/index.component';
+import { ListComponent } from './list/list.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@angular/material";
 import {BrowserModule} from "@angular/platform-browser";
@@ -15,7 +15,7 @@ import {BrowserModule} from "@angular/platform-browser";
             { path: 'master/create', component: CreateComponent },
             { path: 'master/manage', component: ManageComponent },
             { path: 'master/start', component: StartComponent },
-            { path: 'master', component: IndexComponent}
+            { path: 'master/list', component: ListComponent}
         ]),
         FormsModule,
         ReactiveFormsModule,
@@ -27,7 +27,7 @@ import {BrowserModule} from "@angular/platform-browser";
         CreateComponent,
         ManageComponent,
         StartComponent,
-        IndexComponent
+        ListComponent
     ],
     providers: [],
 })
