@@ -67,7 +67,7 @@ export class CreateComponent implements OnInit {
         //QuizCollection.insert(model);
         MeteorObservable.call('saveQuiz', model).subscribe((quiz : Quiz) => {
             // Success Redirect ...
-            this.router.navigateByUrl('master/manage');
+            this.router.navigateByUrl('master/list');
         }, (error) => {
             alert(`Error: ${error}`);
         });
