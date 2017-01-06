@@ -5,6 +5,9 @@ import {QuizCollection} from "../../both/collections/quiz.collection";
 
 Meteor.methods({
     saveQuiz: function(quizModel: Quiz) {
-        return QuizCollection.collection.insert(quizModel);
+        let id : string;
+        id = QuizCollection.collection.insert(quizModel);
+
+        return QuizCollection.collection.find(id).fetch()[0];
     }
 });
