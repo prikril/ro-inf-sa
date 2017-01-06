@@ -8,6 +8,7 @@ import { Quiz, Question, Answer } from '../../../../../both/models/quiz.model';
 import { QuizCollection } from '../../../../../both/collections/quiz.collection';
 import template from './create.component.html';
 import style from "./create.component.scss";
+import {MeteorObservable} from "meteor-rxjs";
 
 @Component({
     selector: 'create',
@@ -63,6 +64,12 @@ export class CreateComponent implements OnInit {
 
     save(model: Quiz) {
         console.log(model);
-        QuizCollection.insert(model);
+        //QuizCollection.insert(model);
+        MeteorObservable.call('saveQuiz', model).subscribe((id) => {
+            // Success Redirect ...
+            console.log(id);
+        }, (error) => {
+            alert(`Error: ${error}`);
+        });
     }
 }
