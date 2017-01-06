@@ -1,0 +1,16 @@
+<h2>Questions</h2>
+<table>
+    <tr>
+        <th>Quiz Name</th>
+        <th>Quiz ID</th>
+        <th>Questions</th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let q of quizList | async">
+        <td>{{q.name}}</td>
+        <td>{{q._id}}</td>
+        <td>{{q.questions.length}}</td>
+        <td><a routerLink="/master/start"><button>Start quiz</button></a></td>
+    </tr>
+</table>
+<a routerLink="/master/create"><button>Create new quiz</button></a>
