@@ -1,4 +1,4 @@
-<form [formGroup]="quizForm" novalidate class="quizForm" (submit)="save(quizForm.value)">
+<form [formGroup]="quizForm" novalidate class="quizForm">
     <md-card>
         <md-card-title>Create a new Quiz</md-card-title>
         <md-card-content>
@@ -27,7 +27,7 @@
             </div>
         </md-card-content>
         <md-card-actions>
-            <button type="submit" md-button [disabled]="!quizForm.valid">Save</button>
+            <button type="submit" md-button [disabled]="!quizForm.valid" (click)="save(quizForm.value)">Save</button>
             <button md-button (click)="addQuestion()">Add Question</button>
         </md-card-actions>
     </md-card>
