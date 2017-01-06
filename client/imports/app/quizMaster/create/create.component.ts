@@ -8,6 +8,8 @@ import { Quiz, Question, Answer } from '../../../../../both/models/quiz.model';
 import { QuizCollection } from '../../../../../both/collections/quiz.collection';
 import template from './create.component.html';
 import style from "./create.component.scss";
+import {MeteorObservable} from "meteor-rxjs";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'create',
@@ -19,7 +21,7 @@ export class CreateComponent implements OnInit {
     quizForm: FormGroup;
 
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder, private router : Router) { }
 
     ngOnInit() {
         this.quizForm = this.formBuilder.group({
@@ -62,7 +64,12 @@ export class CreateComponent implements OnInit {
     }
 
     save(model: Quiz) {
-        console.log(model);
-        QuizCollection.insert(model);
+        //QuizCollection.insert(model);
+        MeteorObservable.call('saveQuiz', model).subscribe((quiz : Quiz) => {
+            // Success Redirect ...
+            this.router.navigateByUrl('master/list');
+        }, (error) => {
+            alert(`Error: ${error}`);
+        });
     }
 }
