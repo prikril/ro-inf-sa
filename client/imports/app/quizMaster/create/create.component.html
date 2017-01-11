@@ -2,7 +2,7 @@
     <md-card>
         <md-card-title>Create a new Quiz</md-card-title>
         <md-card-content>
-            <md-input placeholder="Quiz name" formControlName="name" class="full-width">
+            <md-input placeholder="Quizza name" formControlName="name" class="full-width">
                 <md-hint *ngIf="!quizForm.controls.name.valid">
                     Quiz name is required (minimum 4 characters).
                 </md-hint>
@@ -27,8 +27,8 @@
             </div>
         </md-card-content>
         <md-card-actions>
-            <button type="submit" md-button [disabled]="!quizForm.valid" (click)="save(quizForm.value)">Save</button>
-            <button md-button (click)="addQuestion()">Add Question</button>
+            <button md-raised-button (click)="addQuestion()">Add Question</button>
+            <button type="submit" md-raised-button [disabled]="!quizForm.valid" (click)="save(quizForm.value)">Save</button>
         </md-card-actions>
     </md-card>
 </form>

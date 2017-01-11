@@ -1,8 +1,9 @@
-<h2>Questions</h2>
+<h2>Quizzas</h2>
+
 <table>
     <tr>
-        <th>Quiz Name</th>
-        <th>Quiz ID</th>
+        <th>Name</th>
+        <th>ID</th>
         <th>Questions</th>
         <th></th>
     </tr>
@@ -10,7 +11,11 @@
         <td>{{q.name}}</td>
         <td>{{q._id}}</td>
         <td>{{q.questions.length}}</td>
-        <td><a routerLink="/master/start"><button>Start quiz</button></a></td>
+        <td><a [routerLink]="['/master/start', q._id]" md-raised-button color="primary">Start Quizza</a></td>
     </tr>
 </table>
-<a routerLink="/master/create"><button>Create new quiz</button></a>
+<br>
+<a [routerLink]="['/master/create']" md-raised-button color="warn">Create a new Quizza</a>
+<br>
+<br>
+
