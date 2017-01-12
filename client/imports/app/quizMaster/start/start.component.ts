@@ -6,6 +6,7 @@ import {ActivatedRoute} from "@angular/router";
 import { Subscription } from 'rxjs/Subscription';
 import {MeteorObservable} from "meteor-rxjs";
 import {Quiz} from "../../../../../both/models/quiz.model";
+import {Game} from "../../../../../both/models/game.model";
 
 @Component({
     template,
@@ -18,6 +19,7 @@ export class StartComponent implements OnInit, OnDestroy {
     quizName: string;
     questions: number;
     players: string[];
+    gameNumber: string;
 
 
     constructor(private activatedRoute: ActivatedRoute) { }
@@ -29,14 +31,20 @@ export class StartComponent implements OnInit, OnDestroy {
                 this.quizId = param['quizId'];
                 console.log(this.quizId);
                 this.getQuizDetails(this.quizId);
+                this.initGame();
             });
-        //load competitors
-        this.players = ["Player1", "Teilnehmer", "Spieler"];
     }
 
     ngOnDestroy() {
         // prevent memory leak by unsubscribing
         this.subscription.unsubscribe();
+    }
+
+    initGame() {
+        //generate gameNumber
+        this.generateGameNumber(this.quizId);
+        //load competitors
+        this.players = ["Player1", "Teilnehmer", "Spieler"];
     }
 
     getQuizDetails(quizId: string) {
@@ -45,6 +53,12 @@ export class StartComponent implements OnInit, OnDestroy {
             this.questions = quiz.questions.length;
         }, (error) => {
             alert(`Error: ${error}`);
+        });
+    }
+
+    private generateGameNumber(quizId: string) {
+        MeteorObservable.call('addGame', quizId).subscribe((game : Game) => {
+           this.gameNumber = game.gameNumber;
         });
     }
 }
