@@ -18,7 +18,8 @@ Meteor.methods({
     },
 
     fetchGameByNumber: function(gameNumber: string) {
-        return GameCollection.findOne(gameNumber);
+        //search for running games by gameNumber
+        return GameCollection.findOne({gameNumber: gameNumber, running: true});
     }
 });
 
