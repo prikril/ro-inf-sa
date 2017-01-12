@@ -9,5 +9,9 @@ Meteor.methods({
         id = QuizCollection.collection.insert(quizModel);
 
         return QuizCollection.collection.find(id).fetch()[0];
+    },
+
+    fetchQuizById: function(quizId: string) {
+        return QuizCollection.findOne(quizId);
     }
 });

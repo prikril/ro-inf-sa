@@ -1,2 +1,15 @@
-<h2>Start Component</h2>
-<p>You want to start a new quiz from id {{quizId}}</p>
+<h2>Start the Quizza</h2>
+<p>You want to start a new Quizza from ID {{quizId}}</p>
+<p>Name of the Quizza: {{quizName}}</p>
+<p>This Quizza has {{questions}} question(s).</p>
+<br>
+<p>@Competitors: The game ID for this Quizza is 123456</p>
+<br><br>
+<div>
+    <h3>Competitors</h3>
+    <md-list>
+        <md-list-item *ngFor="let player of players">
+            {{player}}
+        </md-list-item>
+    </md-list>
+</div>
