@@ -4,7 +4,7 @@ import {
     FormGroup,
     Validators, FormArray
 } from '@angular/forms';
-import { Quiz, Question, Answer } from '../../../../../both/models/quiz.model';
+import { Quiz } from '../../../../../both/models/quiz.model';
 import { QuizCollection } from '../../../../../both/collections/quiz.collection';
 import template from './create.component.html';
 import style from "./create.component.scss";
