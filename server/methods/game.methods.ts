@@ -1,6 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import {GameCollection} from "../../both/collections/game.collection";
 import {Game} from "../../both/models/game.model";
+import {Player} from "../../both/models/player.model";
 
 
 Meteor.methods({
@@ -20,6 +21,14 @@ Meteor.methods({
     fetchGameByNumber: function(gameNumber: string) {
         //search for running games by gameNumber
         return GameCollection.findOne({gameNumber: gameNumber, running: true});
+    },
+
+    joinGame: function(gameId:string, player: Player) {
+        let game = GameCollection.findOne({_id: gameId, running: true});
+        let players = game.players;
+        players.push(player);
+        GameCollection.update({_id: gameId, running: true}, {$set: {players: players}});
+        return true;
     }
 });
 

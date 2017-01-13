@@ -1,6 +1,7 @@
 export interface Player {
     _id: string;
+    gameId: string;
     name: string;
     playing: boolean;
-    points: number;
+    score: number;
 }
