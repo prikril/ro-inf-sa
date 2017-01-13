@@ -6,6 +6,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {MeteorObservable} from "meteor-rxjs";
 import {Game} from "../../../../../both/models/game.model";
 import {Player} from "../../../../../both/models/player.model";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'standby',
@@ -19,7 +20,8 @@ export class StandbyComponent implements OnInit {
     playerId: string;
 
     constructor(
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router : Router
     ) { }
 
     ngOnInit() {
@@ -65,6 +67,8 @@ export class StandbyComponent implements OnInit {
                 //player added
                 this.playerId = player._id;
                 console.log(this.playerId);
+
+                this.router.navigateByUrl('competitor/question/'+this.playerId);
                 //TODO: weiterleitung
             }
 

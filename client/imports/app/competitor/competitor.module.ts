@@ -11,7 +11,7 @@ import {BrowserModule} from "@angular/platform-browser";
     imports: [
         RouterModule.forChild([
             { path: 'competitor/standby', component: StandbyComponent },
-            { path: 'competitor/question', component: QuestionComponent }
+            { path: 'competitor/question/:playerId', component: QuestionComponent }
         ]),
         FormsModule,
         ReactiveFormsModule,
