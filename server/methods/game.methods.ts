@@ -5,13 +5,12 @@ import {Game} from "../../both/models/game.model";
 
 Meteor.methods({
     addGame: function(quizId: string) {
-
-        let game = new Game();
-        game.quizId = quizId;
-        game.gameNumber = String(genGameNumber());
-        game.running = true;
-        game.players = [];
-
+        let game = {
+            quizId: quizId,
+            gameNumber: String(genGameNumber()),
+            running: true,
+            players: []
+        };
 
         let id : string;
         id = GameCollection.collection.insert(game);
