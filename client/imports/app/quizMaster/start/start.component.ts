@@ -23,6 +23,7 @@ export class StartComponent implements OnInit, OnDestroy {
     players: string[];
     gameNumber: string;
     game: Game;
+    private gameSubscription: Subscription;
 
 
     constructor(private activatedRoute: ActivatedRoute) { }
@@ -41,12 +42,12 @@ export class StartComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         // prevent memory leak by unsubscribing
         this.subscription.unsubscribe();
+        this.gameSubscription.unsubscribe();
     }
 
     initGame() {
         //generate gameNumber
         this.generateGameNumber(this.quizId);
-        //load competitors
         this.players = ["no Players"];
     }
 
@@ -61,36 +62,33 @@ export class StartComponent implements OnInit, OnDestroy {
 
     private generateGameNumber(quizId: string) {
         MeteorObservable.call('addGame', quizId).subscribe((game : Game) => {
-           this.gameNumber = game.gameNumber;
-           //this.players = game.players;
-           //this.game = game;
-           this.listPlayers(game._id)
+            this.gameNumber = game.gameNumber;
+            this.subscribeGame(game._id);
         });
     }
 
-    private listPlayers(gameId: string) {
-        GameCollection.find({_id: gameId}).observe({
-            added: function (document) {
-                // Do something to collection 2
-                console.log("added");
-            },
-            changed: function (newDocument, oldDocument) {
-                // ...
-                console.log("changed");
-                console.log(newDocument);
-                //this.game = newDocument;
-                this.buildPlayerNameArray();
-            },
-            removed: function (oldDocument) {
-                // ...
-                console.log("removed");
-            }
-        });
+    private subscribeGame(gameId: string) {
+        // https://github.com/Urigo/meteor-rxjs
+        // game => games[0] picks first game found by _id, should only find one game
+        this.gameSubscription = GameCollection.find({_id: gameId}).map(games => games[0]).subscribe(game => this.fetchPlayersFromGame(game));
     }
 
-    private buildPlayerNameArray() {
-        console.log("vor player change");
-        this.players = ["Player1", "Teilnehmer", "Spieler"];
-        console.log(("nach player change"));
+    private fetchPlayersFromGame(game : Game) {
+        console.log(game);
+        let players :Player[] = game.players;
+        if ( players != null && players.length > 0) {
+            this.parsePlayerArray(players);
+        }
+    }
+
+    private parsePlayerArray(players: Player[]) {
+        console.log("parse player array");
+        console.log(players);
+        let tmpArray: string[] = [];
+        for (let player of players) {
+            console.log(player.name);
+            tmpArray.push(player.name);
+        }
+        this.players = tmpArray;
     }
 }
