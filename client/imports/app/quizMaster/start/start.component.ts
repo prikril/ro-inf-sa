@@ -22,7 +22,6 @@ export class StartComponent implements OnInit, OnDestroy {
     questions: number;
     players: string[];
     gameNumber: string;
-    game: Game;
     private gameSubscription: Subscription;
 
 
@@ -33,7 +32,7 @@ export class StartComponent implements OnInit, OnDestroy {
         this.subscription = this.activatedRoute.params.subscribe(
             (param: any) => {
                 this.quizId = param['quizId'];
-                console.log(this.quizId);
+                //console.log(this.quizId); // only for debug
                 this.getQuizDetails(this.quizId);
                 this.initGame();
             });
@@ -69,12 +68,13 @@ export class StartComponent implements OnInit, OnDestroy {
 
     private subscribeGame(gameId: string) {
         // https://github.com/Urigo/meteor-rxjs
-        // game => games[0] picks first game found by _id, should only find one game
-        this.gameSubscription = GameCollection.find({_id: gameId}).map(games => games[0]).subscribe(game => this.fetchPlayersFromGame(game));
+        this.gameSubscription = GameCollection.find({_id: gameId})
+            .map(games => games[0]) // game => games[0] picks first game found by _id, should only find one game
+            .subscribe(game => this.fetchPlayersFromGame(game));
     }
 
     private fetchPlayersFromGame(game : Game) {
-        console.log(game);
+        //console.log(game); // only for debug
         let players :Player[] = game.players;
         if ( players != null && players.length > 0) {
             this.parsePlayerArray(players);
@@ -82,11 +82,11 @@ export class StartComponent implements OnInit, OnDestroy {
     }
 
     private parsePlayerArray(players: Player[]) {
-        console.log("parse player array");
-        console.log(players);
+        //console.log("parse player array"); // only for debug
+        //console.log(players); // only for debug
         let tmpArray: string[] = [];
         for (let player of players) {
-            console.log(player.name);
+            //console.log(player.name); // only for debug
             tmpArray.push(player.name);
         }
         this.players = tmpArray;
