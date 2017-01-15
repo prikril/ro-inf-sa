@@ -9,7 +9,7 @@ import {Quiz} from "../../../../../both/models/quiz.model";
 import {Game} from "../../../../../both/models/game.model";
 import {Player} from "../../../../../both/models/player.model";
 import {GameCollection} from "../../../../../both/collections/game.collection";
-
+import {Question} from "../../../../../both/models/question.model"
 @Component({
     template,
     styles: [style]
@@ -18,11 +18,14 @@ export class StartComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
     quizId: string;
+    quiz : Quiz;
     quizName: string;
     questions: number;
+    questionArray : Question[]
     players: string[];
     gameNumber: string;
     game: Game;
+    questionNo : string;
     private gameSubscription: Subscription;
 
 
@@ -33,9 +36,10 @@ export class StartComponent implements OnInit, OnDestroy {
         this.subscription = this.activatedRoute.params.subscribe(
             (param: any) => {
                 this.quizId = param['quizId'];
+                this.gameNumber = param['gameNo'];
+                this.questionNo = param['questionNo'];
                 console.log(this.quizId);
                 this.getQuizDetails(this.quizId);
-                this.initGame();
             });
     }
 
@@ -47,14 +51,52 @@ export class StartComponent implements OnInit, OnDestroy {
 
     initGame() {
         //generate gameNumber
-        this.generateGameNumber(this.quizId);
-        this.players = ["no Players"];
+        if(this.gameNumber == undefined) {
+            this.generateGameNumber(this.quizId);
+            this.players = ["no Players"];
+        }
+
+        //Aufräumen, sehr unsauber -.-
+        MeteorObservable.call('fetchGameByNumber', this.gameNumber).subscribe((game : Game) => {
+            this.game = game;
+            if(this.questionNo == undefined) {
+                this.questionNo = "0";
+            }
+            else {
+                this.changeQuestion();
+            }
+        });
+    }
+
+    private changeQuestion(){
+        if (this.questionNo == undefined) {
+            this.questionNo = "0";
+        }
+
+        let tmp = parseInt(this.questionNo) + 1;
+        this.questionNo = tmp.toString();
+
+        console.log("changin question");
+        console.log("Quiz:" + this.quiz);
+        console.log(this.quiz.questions.length);
+        console.log(tmp);
+
+        if (this.quiz != undefined && this.quiz.questions.length >= tmp){
+            console.log("Game: " +this.game);
+            this.game.currentQuestion = this.quiz.questions[tmp - 1];
+            console.log("Question changed");
+            console.log(this.game);
+        }
     }
 
     getQuizDetails(quizId: string) {
         MeteorObservable.call('fetchQuizById', quizId).subscribe((quiz : Quiz) => {
             this.quizName = quiz.name;
             this.questions = quiz.questions.length;
+            console.log("filling quiz");
+            this.quiz = quiz;
+
+            this.initGame();
         }, (error) => {
             alert(`Error: ${error}`);
         });

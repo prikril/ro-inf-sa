@@ -15,6 +15,7 @@ import {BrowserModule} from "@angular/platform-browser";
             { path: 'master/create', component: CreateComponent },
             { path: 'master/manage', component: ManageComponent },
             { path: 'master/start/:quizId', component: StartComponent },
+            { path: 'master/start/:quizId/:gameNo/:questionNo', component: StartComponent },
             { path: 'master/list', component: ListComponent}
         ]),
         FormsModule,
