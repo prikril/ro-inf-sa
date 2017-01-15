@@ -30,7 +30,7 @@ Meteor.methods({
         let players = game.players;
         players.push(player);
         GameCollection.update({_id: gameId, running: true}, {$set: {players: players}});
-        return true;
+        return true; //TODO: add if statement
     },
     fetchGameById: function(gameId:string) {
         let game = GameCollection.findOne({_id: gameId, running: true});
@@ -38,9 +38,10 @@ Meteor.methods({
         return game;
     },
 
-    changeCurrentQuestion: function(gameId:string, question : Question) {
+    changeCurrentQuestion: function(gameId:string, question : Object) {
         GameCollection.update({_id : gameId, running: true}, {$set: {currentQuestion : question}});
-}
+        return true; //TODO: add if statement
+    }
 });
 
 function genGameNumber() {

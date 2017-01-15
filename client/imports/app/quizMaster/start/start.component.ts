@@ -21,7 +21,7 @@ export class StartComponent implements OnInit, OnDestroy {
     quiz : Quiz;
     quizName: string;
     questions: number;
-    questionArray : Question[]
+    questionArray : Question[];
     players: string[];
     gameNumber: string;
     game: Game;
@@ -83,7 +83,13 @@ export class StartComponent implements OnInit, OnDestroy {
 
         if (this.quiz != undefined && this.quiz.questions.length >= tmp){
             console.log("Game: " +this.game);
-            MeteorObservable.call('changeCurrentQuestion', this.game._id, this.quiz.questions[tmp-1]);
+            MeteorObservable.call('changeCurrentQuestion', this.game._id, this.quiz.questions[tmp-1]).subscribe(
+                (success : boolean) => {
+                    console.log("success changing question");
+                }, (error) => {
+                    alert(`Error: ${error}`);
+                }
+            );
             this.game.currentQuestion = this.quiz.questions[tmp - 1];
             console.log("Question changed");
             console.log(this.game);
