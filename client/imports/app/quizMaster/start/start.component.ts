@@ -83,6 +83,7 @@ export class StartComponent implements OnInit, OnDestroy {
 
         if (this.quiz != undefined && this.quiz.questions.length >= tmp){
             console.log("Game: " +this.game);
+            MeteorObservable.call('changeCurrentQuestion', this.game._id, this.quiz.questions[tmp-1]);
             this.game.currentQuestion = this.quiz.questions[tmp - 1];
             console.log("Question changed");
             console.log(this.game);

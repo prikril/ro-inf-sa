@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import {GameCollection} from "../../both/collections/game.collection";
 import {Game} from "../../both/models/game.model";
 import {Player} from "../../both/models/player.model";
+import {Question, QuestionImpl} from "../../both/models/question.model";
 
 
 Meteor.methods({
@@ -10,7 +11,8 @@ Meteor.methods({
             quizId: quizId,
             gameNumber: String(genGameNumber()),
             running: true,
-            players: []
+            players: [],
+            currentQuestion : new QuestionImpl
         };
 
         let id : string;
@@ -21,7 +23,7 @@ Meteor.methods({
     fetchGameByNumber: function(gameNumber: string) {
         //search for running games by gameNumber
         return GameCollection.findOne({gameNumber: gameNumber, running: true});
-    },
+},
 
     joinGame: function(gameId:string, player: Player) {
         let game = GameCollection.findOne({_id: gameId, running: true});
@@ -34,7 +36,11 @@ Meteor.methods({
         let game = GameCollection.findOne({_id: gameId, running: true});
 
         return game;
-    }
+    },
+
+    changeCurrentQuestion: function(gameId:string, question : Question) {
+        GameCollection.update({_id : gameId, running: true}, {$set: {currentQuestion : question}});
+}
 });
 
 function genGameNumber() {

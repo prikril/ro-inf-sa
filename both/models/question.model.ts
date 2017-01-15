@@ -6,3 +6,9 @@ export interface Question {
     question: string;
     answers: Answer[];
 }
+
+export class QuestionImpl  {
+    _id: string;
+    question: string;
+    answers: Answer[];
+}
