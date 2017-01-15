@@ -66,10 +66,9 @@ export class StandbyComponent implements OnInit {
             if (success) {
                 //player added
                 this.playerId = player._id;
-                console.log(this.playerId);
 
                 this.router.navigateByUrl('competitor/question/'+this.playerId);
-                //TODO: weiterleitung
+                //TODO: weiterleitung erst wenn Spiel freigegeben wurde
             }
 
         }, (error) => {

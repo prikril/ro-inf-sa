@@ -1,4 +1,4 @@
-export interface Player {
+export class Player {
     _id: string;
     gameId: string;
     name: string;

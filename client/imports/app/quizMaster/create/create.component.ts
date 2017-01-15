@@ -5,7 +5,6 @@ import {
     Validators, FormArray
 } from '@angular/forms';
 import { Quiz } from '../../../../../both/models/quiz.model';
-import { QuizCollection } from '../../../../../both/collections/quiz.collection';
 import template from './create.component.html';
 import style from "./create.component.scss";
 import {MeteorObservable} from "meteor-rxjs";
@@ -30,8 +29,6 @@ export class CreateComponent implements OnInit {
                 this.initQuestionFormGroup()
             ])
         });
-
-        console.log(this.quizForm);
     }
 
     initQuestionFormGroup() {
@@ -64,7 +61,6 @@ export class CreateComponent implements OnInit {
     }
 
     save(model: Quiz) {
-        //QuizCollection.insert(model);
         MeteorObservable.call('saveQuiz', model).subscribe((quiz : Quiz) => {
             // Success Redirect ...
             this.router.navigateByUrl('master/list');

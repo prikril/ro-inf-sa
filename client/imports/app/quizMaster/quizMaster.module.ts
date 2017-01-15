@@ -13,7 +13,7 @@ import {BrowserModule} from "@angular/platform-browser";
     imports: [
         RouterModule.forChild([
             { path: 'master/create', component: CreateComponent },
-            { path: 'master/manage', component: ManageComponent },
+            { path: 'master/manage/:gameNumber', component: ManageComponent },
             { path: 'master/start/:quizId', component: StartComponent },
             { path: 'master/list', component: ListComponent}
         ]),

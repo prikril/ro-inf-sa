@@ -1,18 +1,17 @@
 import {Meteor} from 'meteor/meteor';
 import {GameCollection} from "../../both/collections/game.collection";
-import {Game} from "../../both/models/game.model";
 import {Player} from "../../both/models/player.model";
 import {PlayerCollection} from "../../both/collections/player.collection";
 
 
 Meteor.methods({
     addPlayer: function(gameId: string, name: string) {
-        let player = {
-            gameId: gameId,
-            name: name,
-            playing: true,
-            score: 0
-        };
+
+        let player = new Player();
+        player.gameId = gameId;
+        player.name = name;
+        player.playing = true;
+        player.score = 0;
 
         let id : string;
         id = PlayerCollection.collection.insert(player);

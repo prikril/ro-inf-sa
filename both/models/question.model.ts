@@ -1,7 +1,6 @@
 import {Answer} from "./answer.model";
 
-
-export interface Question {
+export class Question {
     _id: string;
     question: string;
     answers: Answer[];
