@@ -23,7 +23,7 @@ export class QuestionComponent implements OnInit {
 
     game : Game;
     currentQuestion : Question;
-    gameId : String = "530736";
+    gameId : String;
     foundGame : boolean;
     quizId : String;
     playerId : string;
@@ -37,18 +37,8 @@ export class QuestionComponent implements OnInit {
             (param: any) => {
                 this.playerId = param['playerId'];
 
-                this.player = this.getPlayer(this.playerId);
-                if(this.player == null) {
-                    return;
-                }
-                console.log("create subscription2");
+                this.getPlayer(this.playerId);
 
-                this.game = this.getGame(this.player.gameId);
-                if(this.game == null) {
-                    return;
-                }
-                console.log("create subscription3");
-                this.subscripteToCurrentQuestion(this.game._id);
             });
     }
 
@@ -57,24 +47,24 @@ export class QuestionComponent implements OnInit {
         this.currentQuestionSubscription.unsubscribe();
     }
 
-    private getPlayer(playerId : string) : Player {
-        let retPlayer : Player;
+    private getPlayer(playerId : string) {
         MeteorObservable.call('fetchPlayerById', playerId).subscribe((player : Player) => {
-            retPlayer = player;
+            this.player = player;
+
+            this.getGame(this.player.gameId);
         }, (error) => {
             alert(`Error while loading player information: ${error}`);
         });
-        return retPlayer;
     }
 
-    private getGame(gameId : string) : Game {
-        let retGame : Game;
+    private getGame(gameId : string) {
         MeteorObservable.call('fetchGameById', gameId).subscribe((game : Game) => {
-            retGame = game;
+            this.game = game;
+
+            this.subscripteToCurrentQuestion(this.game._id);
         }, (error) => {
             alert(`Error while loading game information: ${error}`);
         });
-        return retGame;
     }
 
     private subscripteToCurrentQuestion(gameId : string) {

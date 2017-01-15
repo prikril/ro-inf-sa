@@ -29,6 +29,11 @@ Meteor.methods({
         players.push(player);
         GameCollection.update({_id: gameId, running: true}, {$set: {players: players}});
         return true;
+    },
+    fetchGameById: function(gameId:string) {
+        let game = GameCollection.findOne({_id: gameId, running: true});
+
+        return game;
     }
 });
 
