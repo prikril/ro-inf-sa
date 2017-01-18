@@ -1,4 +1,4 @@
-<h2>Answer the question</h2>
+<h2>Your Score: {{score}}</h2>
 <div *ngIf="!showResult" class="quiz">
     <div class="question">{{question}}</div>
     <div class="answers">
@@ -8,6 +8,6 @@
         <button class="answer4" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 4}" (click)="!answerGiven && answerQuestion(4)">{{answer4}}</button>
     </div>
 </div>
-<div *ngIf="answerGiven">
-    <p>question was answered</p>
+<div *ngIf="showResult">
+    <p>Results:</p>
 </div>
