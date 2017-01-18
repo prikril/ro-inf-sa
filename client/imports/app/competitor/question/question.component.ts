@@ -26,6 +26,7 @@ export class QuestionComponent implements OnInit {
     foundGame : boolean;
     quizId : String;
     answerGiven: boolean = false;
+    showResult: boolean = false;
 
     //Question properties for View
     question : string;
