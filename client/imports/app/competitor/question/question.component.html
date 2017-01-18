@@ -1,14 +1,13 @@
 <h2>Answer the question</h2>
-
-{{game}}<br />
-{{quizId}}<br />
-<div *ngIf="!answerGiven" class="quiz">
+<div *ngIf="!showResult" class="quiz">
     <div class="question">{{question}}</div>
     <div class="answers">
-        <button class="answer1" (click)="answerQuestion(1)">{{answer1}}</button>
-        <button class="answer2" (click)="answerQuestion(2)">{{answer2}}</button>
-        <button class="answer3" (click)="answerQuestion(3)">{{answer3}}</button>
-        <button class="answer4" (click)="answerQuestion(4)">{{answer4}}</button>
+        <button class="answer1" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 1}" (click)="!answerGiven && answerQuestion(1)">{{answer1}}</button>
+        <button class="answer2" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 2}" (click)="!answerGiven && answerQuestion(2)">{{answer2}}</button>
+        <button class="answer3" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 3}" (click)="!answerGiven && answerQuestion(3)">{{answer3}}</button>
+        <button class="answer4" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 4}" (click)="!answerGiven && answerQuestion(4)">{{answer4}}</button>
     </div>
 </div>
-<div *ngIf="answerGiven">You have answered the question!</div>
+<div *ngIf="answerGiven">
+    <p>question was answered</p>
+</div>
