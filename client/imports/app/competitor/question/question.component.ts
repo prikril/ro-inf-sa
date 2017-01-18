@@ -20,6 +20,8 @@ export class QuestionComponent implements OnInit {
     private currentQuestionSubscription : Subscription;
     private routeSubscription : Subscription;
 
+    answerGiven : Boolean;
+
     game : Game;
     player : Player;
     playerId : string;
@@ -27,6 +29,7 @@ export class QuestionComponent implements OnInit {
     quizId : String;
     answerGiven: boolean = false;
     showResult: boolean = false;
+    selectedAnswer : number;
 
     //Question properties for View
     question : string;
@@ -52,7 +55,21 @@ export class QuestionComponent implements OnInit {
     }
 
     answerQuestion(answer : number) : void {
+        if (this.answerGiven) {
+            return;
+        }
+
+        if(answer < 1 || answer > 4) {
+            alert("Answer out of range");
+            throw new RangeError("Given Answer: " + answer);
+        }
+
+        MeteorObservable.call('answerFromPlayer', this.game._id,
+            this.playerId,
+            answer).subscribe();
+
         this.answerGiven = true;
+        this.selectedAnswer = answer;
     }
 
     private getPlayerFromServer(playerId : string) : void {
@@ -91,6 +108,8 @@ export class QuestionComponent implements OnInit {
             this.answer2 = newQuestion.answers[1].answer;
             this.answer3 = newQuestion.answers[2].answer;
             this.answer4 = newQuestion.answers[3].answer;
+
+            this.answerGiven = false;
         }
     }
 }

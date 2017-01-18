@@ -3,15 +3,18 @@ import {GameCollection} from "../../both/collections/game.collection";
 import {Game} from "../../both/models/game.model";
 import {Player} from "../../both/models/player.model";
 import {Question} from "../../both/models/question.model";
+import {GivenAnswer} from "../../both/models/givenAnswers.model";
 
 
 Meteor.methods({
     addGame: function(quizId: string) {
         let game = new Game;
         game.quizId = quizId;
+        game.currentIndex = 0;
         game.gameNumber = String(genGameNumber());
         game.running = true;
         game.players = [];
+        game.givenAnswers = [];
 
         let id : string;
         id = GameCollection.collection.insert(game);
@@ -31,11 +34,33 @@ Meteor.methods({
         return true;
     },
     fetchGameById: function(gameId : string) : Game {
-        return GameCollection.findOne({_id : gameId});
+        return GameCollection.findOne({_id : gameId,});
     },
     changeCurrentQuestion: function(gameId:string, question : Question) {
-        GameCollection.update(gameId, {$set: {currentQuestion : question}});
+        let game = GameCollection.findOne(gameId);
 
+        GameCollection.update(gameId, {$set: {
+            currentQuestion : question,
+            currentIndex : game.currentIndex++
+           }});
+    },
+    answerFromPlayer : function(gameId : string,
+                                playerId : string,
+                                answerNo : number) : void {
+
+        let game = GameCollection.findOne(gameId);
+
+        if(game.givenAnswers.filter(a => a.playerId == playerId && a.questionIndex == game.currentIndex).length == 0) {
+            let answer = new GivenAnswer();
+
+            answer.givenAnswer = answerNo;
+            answer.playerId = playerId;
+            answer.questionIndex = game.currentIndex;
+
+            game.givenAnswers.push(answer);
+
+            GameCollection.update(game._id, {$set: {givenAnswers : game.givenAnswers}});
+        }
     }
 });
 

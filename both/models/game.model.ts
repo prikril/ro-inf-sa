@@ -1,5 +1,6 @@
 import {Player} from "./player.model";
 import {Question} from "./question.model";
+import {GivenAnswer} from "./givenAnswers.model";
 
 export class Game {
     _id: string;
@@ -7,5 +8,7 @@ export class Game {
     gameNumber: string;
     running: boolean;
     players: Player[];
-    currentQuestion : Question
+    currentQuestion : Question;
+    currentIndex : number;
+    givenAnswers : GivenAnswer[];
 }
