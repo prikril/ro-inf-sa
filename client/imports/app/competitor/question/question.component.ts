@@ -20,8 +20,6 @@ export class QuestionComponent implements OnInit {
     private currentQuestionSubscription : Subscription;
     private routeSubscription : Subscription;
 
-    answerGiven : Boolean;
-
     game : Game;
     player : Player;
     playerId : string;
