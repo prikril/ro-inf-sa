@@ -25,6 +25,7 @@ export class QuestionComponent implements OnInit {
     playerId : string;
     foundGame : boolean;
     quizId : String;
+    answerGiven: boolean = false;
 
     //Question properties for View
     question : string;
@@ -50,7 +51,7 @@ export class QuestionComponent implements OnInit {
     }
 
     answerQuestion(answer : number) : void {
-        
+        this.answerGiven = true;
     }
 
     private getPlayerFromServer(playerId : string) : void {

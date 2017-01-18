@@ -2,9 +2,13 @@
 
 {{game}}<br />
 {{quizId}}<br />
-
-{{question}}<br />
-{{answer1}}<br />
-{{answer2}}<br />
-{{answer3}}<br />
-{{answer4}}<br />
+<div *ngIf="!answerGiven" class="quiz">
+    <div class="question">{{question}}</div>
+    <div class="answers">
+        <button class="answer1" (click)="answerQuestion(1)">{{answer1}}</button>
+        <button class="answer2" (click)="answerQuestion(2)">{{answer2}}</button>
+        <button class="answer3" (click)="answerQuestion(3)">{{answer3}}</button>
+        <button class="answer4" (click)="answerQuestion(4)">{{answer4}}</button>
+    </div>
+</div>
+<div *ngIf="answerGiven">You have answered the question!</div>

@@ -1,0 +1,39 @@
+.quiz {
+  width:70%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  margin:auto;
+
+  max-width:100%;
+  max-height:100%;
+  overflow:auto;
+}
+.question {
+  border-style: solid;
+  padding: 30px;
+}
+.answers {
+}
+.answer1 {
+  width: 47%;
+  margin: 10px;
+  padding: 20px;
+}
+.answer2 {
+  width: 47%;
+  margin: 10px;
+  padding: 20px;
+}
+.answer3 {
+  width: 47%;
+  margin: 10px;
+  padding: 20px;
+}
+.answer4 {
+  width: 47%;
+  margin: 10px;
+  padding: 20px;
+}
