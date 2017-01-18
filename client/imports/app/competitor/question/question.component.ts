@@ -49,6 +49,10 @@ export class QuestionComponent implements OnInit {
         this.currentQuestionSubscription.unsubscribe();
     }
 
+    answerQuestion(answer : number) : void {
+        
+    }
+
     private getPlayerFromServer(playerId : string) : void {
         MeteorObservable.call('fetchPlayerById', playerId).subscribe((player : Player) => {
             this.player = player;
