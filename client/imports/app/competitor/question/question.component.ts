@@ -9,6 +9,7 @@ import {MeteorObservable} from "meteor-rxjs";
 import {Question} from "../../../../../both/models/question.model";
 import {GameCollection} from "../../../../../both/collections/game.collection";
 import {Player} from "../../../../../both/models/player.model";
+import {PlayerCollection} from "../../../../../both/collections/player.collection";
 
 @Component({
     selector: 'question',
@@ -19,6 +20,7 @@ export class QuestionComponent implements OnInit {
 
     private currentQuestionSubscription : Subscription;
     private routeSubscription : Subscription;
+    private playerSubscription : Subscription;
 
     game : Game;
     player : Player;
@@ -35,6 +37,7 @@ export class QuestionComponent implements OnInit {
     answer2 : string;
     answer3 : string;
     answer4 : string;
+    score : number;
 
 
     constructor(private activatedRoute: ActivatedRoute) { }
@@ -66,6 +69,8 @@ export class QuestionComponent implements OnInit {
             this.playerId,
             answer).subscribe();
 
+        MeteorObservable.call('updateScore', this.playerId, 1).subscribe();
+
         this.answerGiven = true;
         this.selectedAnswer = answer;
     }
@@ -74,8 +79,10 @@ export class QuestionComponent implements OnInit {
         MeteorObservable.call('fetchPlayerById', playerId).subscribe((player : Player) => {
             this.player = player;
             //next async requests:
+            this.score = player.score;
             this.getGameFromServer(player.gameId);
             this.subscribeCurrentQuestion(player.gameId);
+            this.subscribePlayer(player._id);
         }, (error) => {
             alert(`Error: ${error}`);
             throw new Error(error);
@@ -99,6 +106,12 @@ export class QuestionComponent implements OnInit {
             .subscribe(game => this.fillNextQuestion(game.currentQuestion));
     }
 
+    private subscribePlayer(playerId : string) {
+        this.playerSubscription = PlayerCollection.find(playerId)
+            .map(player => player[0])
+            .subscribe(player => this.getNewScore(player.score));
+    }
+
     private fillNextQuestion(newQuestion : Question) {
         if(newQuestion != undefined && newQuestion != null) {
             this.question = newQuestion.question;
@@ -108,6 +121,11 @@ export class QuestionComponent implements OnInit {
             this.answer4 = newQuestion.answers[3].answer;
 
             this.answerGiven = false;
+            this.selectedAnswer = null;
         }
+    }
+
+    private getNewScore(score: number) {
+        this.score = score;
     }
 }

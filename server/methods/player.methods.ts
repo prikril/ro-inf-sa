@@ -23,7 +23,7 @@ Meteor.methods({
         return PlayerCollection.findOne({_id: playerId, playing: true});
     },
 
-    updateScore: function(playerId: string) {
+    updateScore: function(playerId: string, addToScore : number) {
         let player = GameCollection.findOne(playerId);
         let score = player.players; //TODO: increase???
         PlayerCollection.update({_id: playerId}, {$set: {score: score}});
