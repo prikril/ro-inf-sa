@@ -8,6 +8,6 @@
         <button class="answer4" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 4}" (click)="!answerGiven && answerQuestion(4)">{{answer4}}</button>
     </div>
 </div>
-<div *ngIf="showResult">
-    <p>Results:</p>
+<div *ngIf="showResult" class="quiz">
+    <p style="margin: auto;">Waiting for the quiz master to continue with the next question...</p>
 </div>

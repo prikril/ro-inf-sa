@@ -18,7 +18,7 @@ import {PlayerCollection} from "../../../../../both/collections/player.collectio
 })
 export class QuestionComponent implements OnInit {
 
-    private currentQuestionSubscription : Subscription;
+    private gameSubscription : Subscription;
     private routeSubscription : Subscription;
     private playerSubscription : Subscription;
 
@@ -52,7 +52,7 @@ export class QuestionComponent implements OnInit {
 
     ngOnDestroy() {
         this.routeSubscription.unsubscribe();
-        this.currentQuestionSubscription.unsubscribe();
+        this.gameSubscription.unsubscribe();
     }
 
     answerQuestion(answer : number) : void {
@@ -81,7 +81,7 @@ export class QuestionComponent implements OnInit {
             //next async requests:
             this.score = player.score;
             this.getGameFromServer(player.gameId);
-            this.subscribeCurrentQuestion(player.gameId);
+            this.subscribeGame(player.gameId);
             this.subscribePlayer(player._id);
         }, (error) => {
             alert(`Error: ${error}`);
@@ -99,11 +99,11 @@ export class QuestionComponent implements OnInit {
         });
     }
 
-    private subscribeCurrentQuestion(gameId : string) {
+    private subscribeGame(gameId : string) {
         // https://github.com/Urigo/meteor-rxjs
-        this.currentQuestionSubscription = GameCollection.find(gameId)
+        this.gameSubscription = GameCollection.find(gameId)
             .map(games => games[0]) // game => games[0] picks first game found by _id, should only find one game
-            .subscribe(game => this.fillNextQuestion(game.currentQuestion));
+            .subscribe(game => this.gameChanged(game));
     }
 
     private subscribePlayer(playerId : string) {
@@ -112,16 +112,21 @@ export class QuestionComponent implements OnInit {
             .subscribe(player => this.getNewScore(player.score));
     }
 
-    private fillNextQuestion(newQuestion : Question) {
-        if(newQuestion != undefined && newQuestion != null) {
-            this.question = newQuestion.question;
-            this.answer1 = newQuestion.answers[0].answer;
-            this.answer2 = newQuestion.answers[1].answer;
-            this.answer3 = newQuestion.answers[2].answer;
-            this.answer4 = newQuestion.answers[3].answer;
+    private gameChanged(game : Game) {
+        if(game != undefined && game != null) {
+            this.showResult = game.showResult;
+            if(!this.showResult && game.currentQuestion != undefined){
+                console.log(game);
+                this.question = game.currentQuestion.question;
+                this.answer1 = game.currentQuestion.answers[0].answer;
+                this.answer2 = game.currentQuestion.answers[1].answer;
+                this.answer3 = game.currentQuestion.answers[2].answer;
+                this.answer4 = game.currentQuestion.answers[3].answer;
 
-            this.answerGiven = false;
-            this.selectedAnswer = null;
+                this.answerGiven = false;
+                this.selectedAnswer = null;
+            }
+
         }
     }
 

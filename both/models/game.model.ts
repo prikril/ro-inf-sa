@@ -7,6 +7,7 @@ export class Game {
     quizId: string;
     gameNumber: string;
     running: boolean;
+    showResult: boolean;
     players: Player[];
     currentQuestion : Question;
     currentIndex : number;
