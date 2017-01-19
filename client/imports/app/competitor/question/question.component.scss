@@ -15,29 +15,15 @@
   border-style: solid;
   padding: 30px;
 }
-.answers {
+.row {
+  display: flex;
 }
-.answer1 {
-  width: 47%;
-  margin: 10px;
-  padding: 20px;
-}
-.answer2 {
-  width: 47%;
-  margin: 10px;
-  padding: 20px;
-}
-.answer3 {
-  width: 47%;
-  margin: 10px;
-  padding: 20px;
-}
-.answer4 {
-  width: 47%;
+.answer {
+  flex: 1;
+  width: auto;
   margin: 10px;
   padding: 20px;
 }
 .selected {
-  border-style: solid;
-  border-color: yellow;
+  background-color: yellow;
 }

@@ -2,12 +2,16 @@
 <div *ngIf="!showResult" class="quiz">
     <div class="question">{{question}}</div>
     <div class="answers">
-        <button class="answer1" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 1}" (click)="!answerGiven && answerQuestion(1)">{{answer1}}</button>
-        <button class="answer2" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 2}" (click)="!answerGiven && answerQuestion(2)">{{answer2}}</button>
-        <button class="answer3" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 3}" (click)="!answerGiven && answerQuestion(3)">{{answer3}}</button>
-        <button class="answer4" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 4}" (click)="!answerGiven && answerQuestion(4)">{{answer4}}</button>
+        <div class="row">
+            <button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 1}" (click)="!answerGiven && answerQuestion(1)">{{answer1}}</button>
+            <button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 2}" (click)="!answerGiven && answerQuestion(2)">{{answer2}}</button>
+        </div>
+        <div class="row">
+            <button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 3}" (click)="!answerGiven && answerQuestion(3)">{{answer3}}</button>
+            <button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 4}" (click)="!answerGiven && answerQuestion(4)">{{answer4}}</button>
+        </div>
     </div>
 </div>
 <div *ngIf="showResult" class="quiz">
-    <p style="margin: auto;">Waiting for the quiz master to continue with the next question...</p>
+    <p style="margin: auto;text-align: center">Waiting for the quiz master to continue with the next question...</p>
 </div>
