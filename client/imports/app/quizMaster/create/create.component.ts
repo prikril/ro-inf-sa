@@ -60,6 +60,10 @@ export class CreateComponent implements OnInit {
         control.push(this.initQuestionFormGroup());
     }
 
+    checkRightAnswer(questionIndex: number) {
+        this.uncheckAll(questionIndex);
+    }
+
     save(model: Quiz) {
         MeteorObservable.call('saveQuiz', model).subscribe((quiz : Quiz) => {
             // Success Redirect ...
@@ -67,5 +71,14 @@ export class CreateComponent implements OnInit {
         }, (error) => {
             alert(`Error: ${error}`);
         });
+    }
+
+    private uncheckAll(questionIndex: number) {
+        this.quizForm.get('questions');
+        let answers = this.quizForm.get('questions').controls[questionIndex].get('answers').controls;
+
+        for(let answer of answers) {
+            answer.get('right').setValue(false);
+        }
     }
 }
