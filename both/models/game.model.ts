@@ -8,6 +8,7 @@ export class Game {
     gameResultId : string;
     gameNumber: string;
     running: boolean;
+    showResult: boolean;
     players: Player[];
     currentQuestion : Question;
     currentIndex : number;

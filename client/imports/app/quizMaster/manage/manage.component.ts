@@ -41,8 +41,6 @@ export class ManageComponent implements OnInit {
             });
 
         this.currentQuestion = 0;
-
-
     }
 
     ngOnDestroy() {
@@ -85,6 +83,8 @@ export class ManageComponent implements OnInit {
             MeteorObservable.call('changeCurrentQuestion',
                 this.game._id,
                 this.quiz.questions[this.currentQuestion - 1]).subscribe();
+
+            this.showResults(false);
         }
     }
 
@@ -96,5 +96,9 @@ export class ManageComponent implements OnInit {
             this.answer3 = newQuestion.answers[2].answer;
             this.answer4 = newQuestion.answers[3].answer;
         }
+    }
+
+    showResults(show : boolean) : void {
+        MeteorObservable.call('toggleResults', this.game._id, show).subscribe();
     }
 }

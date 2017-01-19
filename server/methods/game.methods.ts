@@ -15,6 +15,7 @@ Meteor.methods({
         game.gameNumber = String(genGameNumber());
         game.running = true;
         game.players = [];
+        game.showResult = false;
 
         let id : string;
         id = GameCollection.collection.insert(game);
@@ -43,6 +44,11 @@ Meteor.methods({
             currentQuestion : question,
             currentIndex : ++game.currentIndex
            }});
+    },
+    toggleResults: function(gameId:string, showResults : boolean) {
+        GameCollection.update(gameId, {$set: {
+            showResult : showResults
+        }});
     }
 });
 
