@@ -26,11 +26,13 @@ export class ManageComponent implements OnInit {
     private routeSubscription : Subscription;
     private currentQuestionSubscription : Subscription;
     private answersFromCompetitorSubscription : Subscription;
+    private timerSubscription : Observable;
 
     private game : Game;
     private currentQuestion : number;
     private quiz : Quiz;
     private results : GameResult;
+    private timer : number;
 
     showResult : boolean = false;
 
@@ -41,6 +43,7 @@ export class ManageComponent implements OnInit {
     answerResults3 : number;
     answerResults4 : number;
 
+    currentTimer : number;
 
     //Question properties for View
     question : string;
@@ -56,6 +59,7 @@ export class ManageComponent implements OnInit {
             (param : any) => {
                 let gameNumber : string;
                 gameNumber = param['gameNumber'];
+                this.timer = param['timer'];
                 this.getGameFromServer(gameNumber);
             });
 
@@ -118,6 +122,7 @@ export class ManageComponent implements OnInit {
                 this.quiz.questions[this.currentQuestion - 1]).subscribe();
 
             this.initializeResultProperties();
+            this.setTimer();
             this.showResults(false);
         }
     }
@@ -139,6 +144,27 @@ export class ManageComponent implements OnInit {
         this.answerResults4 = 0;
 
         this.givenAnswers = 0;
+    }
+
+    private setTimer() : void {
+        this.currentTimer = this.timer;
+
+        this.timerSubscription = Observable.timer(1000, 1000)
+            .timeInterval()
+            .pluck('interval')
+            .take(this.timer);
+        ;
+        this.timerSubscription.subscribe(t=>{
+            this.decreaseTimer(t);
+        });
+    }
+
+    private decreaseTimer(x) : void {
+        this.currentTimer--;
+        console.log(x);
+        if(this.currentTimer <= 0) {
+            this.showResults(true);
+        }
     }
 
     showResults(show : boolean) : void {

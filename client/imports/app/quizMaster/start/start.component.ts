@@ -19,18 +19,22 @@ import {ok} from "assert";
 export class StartComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
+    private gameSubscription: Subscription;
+
     quizId: string;
     quizName: string;
     questions: number;
     players: string[];
     gameNumber: string;
     gameId : string;
-    private gameSubscription: Subscription;
+    timer : number;
 
 
     constructor(private activatedRoute: ActivatedRoute, private router : Router) { }
 
     ngOnInit() {
+        //TODO Mock:
+        this.timer = 10;
         // subscribe to router event
         this.subscription = this.activatedRoute.params.subscribe(
             (param: any) => {
@@ -64,7 +68,7 @@ export class StartComponent implements OnInit, OnDestroy {
     startQuiz() {
         MeteorObservable.call("startGame", this.gameId).subscribe((success : boolean) => {
             if(success) {
-                this.router.navigateByUrl('master/manage/' + this.gameNumber);
+                this.router.navigateByUrl('master/manage/' + this.gameNumber + "/" +  this.timer);
             }
         });
 
