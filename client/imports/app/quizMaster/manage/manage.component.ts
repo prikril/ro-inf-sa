@@ -10,6 +10,8 @@ import {Question} from "../../../../../both/models/question.model";
 import {Quiz} from "../../../../../both/models/quiz.model";
 import {GameCollection} from "../../../../../both/collections/game.collection";
 import {Observable} from "rxjs";
+import {GameResultCollection} from "../../../../../both/collections/gameResult.collection";
+import {GameResult} from "../../../../../both/models/gameResult.model";
 
 @Component({
     template,
@@ -19,12 +21,21 @@ export class ManageComponent implements OnInit {
 
     private routeSubscription : Subscription;
     private currentQuestionSubscription : Subscription;
+    private answersFromCompetitorSubscription : Subscription;
 
     private game : Game;
     private currentQuestion : number;
     private quiz : Quiz;
 
     showResult : boolean = false;
+
+    givenAnswers : number;
+    answersTotal : number;
+    answerResults1 : number;
+    answerResults2 : number;
+    answerResults3 : number;
+    answerResults4 : number;
+
 
     //Question properties for View
     question : string;
@@ -62,6 +73,7 @@ export class ManageComponent implements OnInit {
             //next async requests:
             this.getQuestionsFromGame(game.quizId);
             this.subscribeCurrentQuestion(game._id);
+            this.subscribeAnswersFromCompetitor(game.gameResultId);
         }, (error) => {
             alert(`Error: ${error}`);
             throw new Error(error);
@@ -84,6 +96,12 @@ export class ManageComponent implements OnInit {
         this.currentQuestionSubscription = GameCollection.find(gameId)
             .map(games => games[0]) // game => games[0] picks first game found by _id, should only find one game
             .subscribe(game => this.fillNextQuestion(game.currentQuestion));
+    }
+
+    private subscribeAnswersFromCompetitor(gameResultId: string) {
+        this.answersFromCompetitorSubscription = GameResultCollection.find(gameResultId)
+            .map(gameResult => gameResult[0])
+            .subscribe(gameResult => this.answerFromCompetitor(gameResult));
     }
 
     nextQuestion() : void {
@@ -113,5 +131,9 @@ export class ManageComponent implements OnInit {
             MeteorObservable.call('toggleResults', this.game._id, show).subscribe();
             this.showResult = show;
         }
+    }
+
+    private answerFromCompetitor(gameResult: GameResult) {
+        this.givenAnswers++;
     }
 }
