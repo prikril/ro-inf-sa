@@ -4,7 +4,8 @@ import { ChartsModule } from 'ng2-charts';
 @Component({
     selector: 'bar-chart',
     template: `
-        <div>
+        <div><br/>
+            <h2>{{questionLabel}}</h2>
             <div style="display: block">
                 <canvas baseChart
                     [datasets]="barChartData"
@@ -30,6 +31,7 @@ export class BarChartComponent implements OnChanges{
         scaleShowVerticalLines: false,
         responsive: true
     };
+    public questionLabel:string = this.question;
     public barChartLabels:string[] = [this.answer1, this.answer2, this.answer3, this.answer4];
     public barChartType:string = 'bar';
     public barChartLegend:boolean = true;
@@ -44,6 +46,9 @@ export class BarChartComponent implements OnChanges{
             console.log(propName + ': ' + chng.currentValue);
             switch (propName)
             {
+                case 'question' :
+                    this.questionLabel = chng.currentValue;
+                    break;
                 case 'answer1' :
                     this.barChartLabels[0] = chng.currentValue;
                     break;
