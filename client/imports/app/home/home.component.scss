@@ -1,5 +1,5 @@
-.quiz {
-  width:90%;
+.body {
+  width:60%;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -11,16 +11,17 @@
   max-height:100%;
   overflow:auto;
 }
-.question {
-  border-style: solid;
-  padding: 30px;
+.body h1 {
+  margin: auto;
+  text-align: center;
 }
-.row {
+container {
+  margin:auto;
   display: flex;
 }
-.answer {
-  flex: 1;
+.container a {
   width: auto;
-  margin: 10px;
-  padding: 20px;
+  font-size: 20pt;
+  margin: 10pt;
+  padding: 5pt;
 }
