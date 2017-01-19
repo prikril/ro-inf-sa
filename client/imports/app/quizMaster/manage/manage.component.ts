@@ -207,23 +207,20 @@ export class ManageComponent implements OnInit {
                     console.log(givenAnswer.timeAnswered);
                     let scoreIncrease : number;
                     let scoreDecrease : number;
+
                     scoreIncrease = this.timer * 1000;
                     scoreDecrease = givenAnswer.timeAnswered - this.game.questionStarted;
-                    console.log(givenAnswer);
-                    console.log(this.game);
                     scoreIncrease = scoreIncrease - scoreDecrease;
-                    console.log("new Score: " + scoreIncrease);
                     MeteorObservable.call("updateScore", givenAnswer.playerId, scoreIncrease).subscribe();
                 }
 
                 if(givenAnswer.givenAnswer == 1) {
                     this.answerResults1++;
-
-                } else if(givenAnswer.givenAnswer == 1) {
+                } else if(givenAnswer.givenAnswer == 2) {
                     this.answerResults2++;
-                } else if(givenAnswer.givenAnswer == 1) {
+                } else if(givenAnswer.givenAnswer == 3) {
                     this.answerResults3++;
-                }else {
+                }else if(givenAnswer.givenAnswer == 4) {
                     this.answerResults4++;
                 }
             }
