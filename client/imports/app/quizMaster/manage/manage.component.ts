@@ -94,6 +94,8 @@ export class ManageComponent implements OnInit {
     private getQuestionsFromGame(quizId: string) : void {
         MeteorObservable.call('fetchQuizById', quizId).subscribe((quiz : Quiz) => {
             this.quiz = quiz;
+            this.answersTotal = quiz.questions.length;
+            
             //Call first question in quiz
             this.nextQuestion();
         }, (error) => {
