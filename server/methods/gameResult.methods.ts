@@ -29,12 +29,12 @@ Meteor.methods({
     answerFromPlayer : function(
         gameId : string,
         playerId : string,
-        answerNo : number) : void {
+        answerNo : number) : boolean {
 
         let game = GameCollection.findOne(gameId);
         let gameResult = GameResultCollection.findOne(game.gameResultId);
 
-        if(gameResult.givenAnswers[game.currentIndex - 1].filter(a => a.playerId = playerId).length == 0) {
+        if(gameResult.givenAnswers[game.currentIndex - 1].filter(a => a.playerId == playerId).length == 0) {
             let answer = new GivenAnswer();
 
             answer.playerId = playerId;
@@ -43,6 +43,10 @@ Meteor.methods({
             gameResult.givenAnswers[game.currentIndex - 1].push(answer);
 
             GameResultCollection.update(gameResult._id, {$set : {givenAnswers : gameResult.givenAnswers}});
+
+            return true;
         }
+
+        return false;
     }
 });

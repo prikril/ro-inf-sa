@@ -63,13 +63,18 @@ export class QuestionComponent implements OnInit {
             alert("Answer out of range");
             throw new RangeError("Given Answer: " + answer);
         }
-
         MeteorObservable.call('answerFromPlayer', this.game._id,
             this.playerId,
-            answer).subscribe();
+            answer).subscribe((success : boolean) => {
+            if(success) {
+                this.answerGiven = true;
+                this.selectedAnswer = answer;
+            }
+            console.log(success);
+        });
 
-        this.answerGiven = true;
-        this.selectedAnswer = answer;
+        console.log(this.playerId);
+
     }
 
     private getPlayerFromServer(playerId : string) : void {
