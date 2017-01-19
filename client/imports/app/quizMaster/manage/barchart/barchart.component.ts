@@ -4,20 +4,20 @@ import { ChartsModule } from 'ng2-charts';
 @Component({
     selector: 'bar-chart',
     template: `
-        <div><br/>
-            <h2>{{questionLabel}}</h2>
+        <div>
             <div style="display: block">
                 <canvas baseChart
                     [datasets]="barChartData"
                     [labels]="barChartLabels"
                     [options]="barChartOptions"
+                    [colors]="barChartColors"
                     [legend]="barChartLegend"
                     [chartType]="barChartType"></canvas>
             </div>
         </div>`
 })
 export class BarChartComponent implements OnChanges{
-    @Input() question:string;
+    @Input() rightAnswer:number;
     @Input() answer1:string;
     @Input() answer2:string;
     @Input() answer3:string;
@@ -31,13 +31,36 @@ export class BarChartComponent implements OnChanges{
         scaleShowVerticalLines: false,
         responsive: true
     };
-    public questionLabel:string = this.question;
-    public barChartLabels:string[] = [this.answer1, this.answer2, this.answer3, this.answer4];
+    private greenColor:any =
+        {
+            backgroundColor: "rgba(0,192,0,0.9)",
+            borderColor: "rgba(0,192,0,1)",
+            pointBackgroundColor: 'rgba(0,192,0,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(0,192,0,0.8)'
+        };
+    private redColor:any =
+        {
+            backgroundColor: "rgba(192,0,0,0.9)",
+            borderColor: "rgba(192,0,0,1)",
+            pointBackgroundColor: 'rgba(192,0,0,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(192,0,0,0.8)'
+        };
+    public barChartColors:Array<any> = [
+        this.greenColor, this.redColor
+    ];
+    public barChartLabels:string[] = ['answers'];
     public barChartType:string = 'bar';
     public barChartLegend:boolean = true;
 
     public barChartData:any[] = [
-        {data: [this.votes1, this.votes2, this.votes3, this.votes4], label: 'votes'}
+        {data: [this.votes1], label: this.answer1},
+        {data: [this.votes2], label: this.answer2},
+        {data: [this.votes3], label: this.answer3},
+        {data: [this.votes4], label: this.answer4}
     ];
 
     ngOnChanges(changes: SimpleChanges) {
@@ -46,32 +69,48 @@ export class BarChartComponent implements OnChanges{
             console.log(propName + ': ' + chng.currentValue);
             switch (propName)
             {
-                case 'question' :
-                    this.questionLabel = chng.currentValue;
+                case 'rightAnswer' :
+                    switch(chng.currentValue)
+                    {
+                        case 1 :
+                            this.barChartColors = [this.greenColor, this.redColor, this.redColor, this.redColor];
+                            break;
+                        case 2 :
+                            this.barChartColors = [this.redColor, this.greenColor, this.redColor, this.redColor];
+                            break;
+                        case 3 :
+                            this.barChartColors = [this.redColor, this.redColor, this.greenColor, this.redColor];
+                            break;
+                        case 4 :
+                            this.barChartColors = [this.redColor, this.redColor, this.redColor, this.greenColor];
+                            break;
+                        default:
+                            this.barChartColors = [this.redColor, this.redColor, this.redColor, this.redColor];
+                    }
                     break;
                 case 'answer1' :
-                    this.barChartLabels[0] = chng.currentValue;
+                    this.barChartData[0].label = chng.currentValue;
                     break;
                 case 'answer2' :
-                    this.barChartLabels[1] = chng.currentValue;
+                    this.barChartData[1].label = chng.currentValue;
                     break;
                 case 'answer3' :
-                    this.barChartLabels[2] = chng.currentValue;
+                    this.barChartData[2].label = chng.currentValue;
                     break;
                 case 'answer4' :
-                    this.barChartLabels[3] = chng.currentValue;
+                    this.barChartData[3].label = chng.currentValue;
                     break;
                 case 'votes1' :
                     this.barChartData[0].data[0] = chng.currentValue;
                     break;
                 case 'votes2' :
-                    this.barChartData[0].data[1] = chng.currentValue;
+                    this.barChartData[1].data[0] = chng.currentValue;
                     break;
                 case 'votes3' :
-                    this.barChartData[0].data[2] = chng.currentValue;
+                    this.barChartData[2].data[0] = chng.currentValue;
                     break;
                 case 'votes4' :
-                    this.barChartData[0].data[3] = chng.currentValue;
+                    this.barChartData[3].data[0] = chng.currentValue;
                     break;
                 default : ;
             }
