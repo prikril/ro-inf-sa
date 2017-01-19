@@ -38,6 +38,7 @@ export class ManageComponent implements OnInit {
     showResult : boolean = false;
 
     givenAnswers : number;
+    rightAnswer : number;
     answersTotal : number;
     answerResults1 : number;
     answerResults2 : number;
@@ -95,7 +96,7 @@ export class ManageComponent implements OnInit {
         MeteorObservable.call('fetchQuizById', quizId).subscribe((quiz : Quiz) => {
             this.quiz = quiz;
             this.answersTotal = quiz.questions.length;
-            
+
             //Call first question in quiz
             this.nextQuestion();
         }, (error) => {
@@ -191,21 +192,21 @@ export class ManageComponent implements OnInit {
     }
 
     private calculateResults() {
+        console.log("calc result");
+        console.log(this.currentQuestion);
         let givenAnswers : GivenAnswer[] = this.results.givenAnswers[this.currentQuestion - 1];
-        let rightAnswer : number;
-
-        if(this.quiz.questions[this.currentQuestion - 1].answers[0].right){
-            rightAnswer = 1;
-        }else if(this.quiz.questions[this.currentQuestion - 1].answers[1].right){
-            rightAnswer = 2;
-        }else if(this.quiz.questions[this.currentQuestion - 1].answers[2].right){
-            rightAnswer = 3;
-        }else {
-            rightAnswer = 4
+        for(let i = 0; i < 4; i++) {
+            if(this.quiz.questions[this.currentQuestion - 1].answers[i].right) {
+                this.rightAnswer = i + 1;
+                break;
+            }
         }
+
+        console.log(this.rightAnswer);
+
         if(givenAnswers != undefined) {
             for(let givenAnswer of givenAnswers) {
-                if(givenAnswer.givenAnswer == rightAnswer) {
+                if(givenAnswer.givenAnswer == this.rightAnswer) {
                     MeteorObservable.call("updateScore", givenAnswer.playerId, 1).subscribe();
                 }
 
