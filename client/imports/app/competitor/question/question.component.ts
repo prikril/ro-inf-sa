@@ -42,7 +42,6 @@ export class QuestionComponent implements OnInit {
 
     constructor(private activatedRoute: ActivatedRoute) { }
     ngOnInit() {
-
         this.routeSubscription = this.activatedRoute.params.subscribe(
             (param : any) => {
                 this.playerId = param['playerId'];

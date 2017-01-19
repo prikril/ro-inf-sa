@@ -62,12 +62,9 @@ export class StartComponent implements OnInit, OnDestroy {
     }
 
     startQuiz() {
-        console.log("change");
         MeteorObservable.call("startGame", this.gameId).subscribe((success : boolean) => {
-            console.log("ok?");
             if(success) {
-                console.log("ok!");
-                this.router.navigateByUrl('master/manage/'+this.gameNumber);
+                this.router.navigateByUrl('master/manage/' + this.gameNumber);
             }
         });
 

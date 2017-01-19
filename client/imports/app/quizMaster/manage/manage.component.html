@@ -1,4 +1,4 @@
-<div *ngIf="!game.showResult || game.showResult == undefined" class="quiz">
+<div *ngIf="!this.showResult" class="quiz">
     <div class="question">{{question}}</div>
     <div class="answers">
         <div class="row">
@@ -12,7 +12,7 @@
     </div>
     <button type="submit" md-raised-button (click)="showResults(true)">Show Results</button>
 </div>
-<div *ngIf="game.showResult" class="quiz">
+<div *ngIf="this.showResult" class="quiz">
     <button type="submit" md-raised-button (click)="nextQuestion()">Next Question </button>
 </div>
 <table>

@@ -24,6 +24,8 @@ export class ManageComponent implements OnInit {
     private currentQuestion : number;
     private quiz : Quiz;
 
+    showResult : boolean = false;
+
     //Question properties for View
     question : string;
     answer1 : string;
@@ -109,6 +111,7 @@ export class ManageComponent implements OnInit {
     showResults(show : boolean) : void {
         if(this.game != undefined && show != undefined){
             MeteorObservable.call('toggleResults', this.game._id, show).subscribe();
+            this.showResult = show;
         }
     }
 }
