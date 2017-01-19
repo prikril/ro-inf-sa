@@ -39,6 +39,7 @@ Meteor.methods({
 
             answer.playerId = playerId;
             answer.givenAnswer = answerNo;
+            answer.timeAnswered = Date.now();
 
             gameResult.givenAnswers[game.currentIndex - 1].push(answer);
 

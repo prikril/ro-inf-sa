@@ -13,4 +13,5 @@ export class Game {
     currentQuestion : Question;
     currentIndex : number;
     timer : number;
+    questionStarted : number;
 }

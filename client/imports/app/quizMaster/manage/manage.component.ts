@@ -109,7 +109,7 @@ export class ManageComponent implements OnInit {
         // https://github.com/Urigo/meteor-rxjs
         this.currentQuestionSubscription = GameCollection.find(gameId)
             .map(games => games[0]) // game => games[0] picks first game found by _id, should only find one game
-            .subscribe(game => this.fillNextQuestion(game.currentQuestion));
+            .subscribe(game => this.updateGame(game));
     }
 
     private subscribeAnswersFromCompetitor(gameResultId: string) {
@@ -132,13 +132,14 @@ export class ManageComponent implements OnInit {
         }
     }
 
-    private fillNextQuestion(newQuestion : Question) {
-        if(newQuestion != undefined && newQuestion != null) {
-            this.question = newQuestion.question;
-            this.answer1 = newQuestion.answers[0].answer;
-            this.answer2 = newQuestion.answers[1].answer;
-            this.answer3 = newQuestion.answers[2].answer;
-            this.answer4 = newQuestion.answers[3].answer;
+    private updateGame(newGame : Game) {
+        this.game = newGame;
+        if(newGame.currentQuestion != undefined && newGame.currentQuestion != null) {
+            this.question = newGame.currentQuestion.question;
+            this.answer1 = newGame.currentQuestion.answers[0].answer;
+            this.answer2 = newGame.currentQuestion.answers[1].answer;
+            this.answer3 = newGame.currentQuestion.answers[2].answer;
+            this.answer4 = newGame.currentQuestion.answers[3].answer;
         }
     }
 
@@ -192,8 +193,6 @@ export class ManageComponent implements OnInit {
     }
 
     private calculateResults() {
-        console.log("calc result");
-        console.log(this.currentQuestion);
         let givenAnswers : GivenAnswer[] = this.results.givenAnswers[this.currentQuestion - 1];
         for(let i = 0; i < 4; i++) {
             if(this.quiz.questions[this.currentQuestion - 1].answers[i].right) {
@@ -202,12 +201,19 @@ export class ManageComponent implements OnInit {
             }
         }
 
-        console.log(this.rightAnswer);
-
         if(givenAnswers != undefined) {
             for(let givenAnswer of givenAnswers) {
                 if(givenAnswer.givenAnswer == this.rightAnswer) {
-                    MeteorObservable.call("updateScore", givenAnswer.playerId, 1).subscribe();
+                    console.log(givenAnswer.timeAnswered);
+                    let scoreIncrease : number;
+                    let scoreDecrease : number;
+                    scoreIncrease = this.timer * 1000;
+                    scoreDecrease = givenAnswer.timeAnswered - this.game.questionStarted;
+                    console.log(givenAnswer);
+                    console.log(this.game);
+                    scoreIncrease = scoreIncrease - scoreDecrease;
+                    console.log("new Score: " + scoreIncrease);
+                    MeteorObservable.call("updateScore", givenAnswer.playerId, scoreIncrease).subscribe();
                 }
 
                 if(givenAnswer.givenAnswer == 1) {
