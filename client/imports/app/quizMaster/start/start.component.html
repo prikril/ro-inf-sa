@@ -3,7 +3,8 @@
         <h3>{{quizName}}</h3>
         <p>This Quizza has {{questions}} question(s).</p>
         <p>The game ID for this Quizza is <b>{{gameNumber}}</b></p>
-        <a [routerLink]="['/master/manage', gameNumber]" md-raised-button color="warn">Start Quizza</a>
+        <a (click)="startQuiz()" md-raised-button color="warn">Start Quizza</a>
+        <!--<button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 1}" (click)="!answerGiven && answerQuestion(1)">{{answer1}}</button>-->
     </div>
     <div class="playerList">
         <h3 style="margin:10px;">Players:</h3>

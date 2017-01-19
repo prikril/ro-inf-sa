@@ -20,7 +20,7 @@ Meteor.methods({
     },
 
     fetchPlayerById: function(playerId: string) {
-        //search for running games by gameNumber
+        //search for playing players by playerNumber
         return PlayerCollection.findOne({_id: playerId, playing: true});
     },
 
