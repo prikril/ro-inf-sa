@@ -9,6 +9,12 @@ import {MeteorObservable} from "meteor-rxjs";
 import {Question} from "../../../../../both/models/question.model";
 import {Quiz} from "../../../../../both/models/quiz.model";
 import {GameCollection} from "../../../../../both/collections/game.collection";
+import {Observable} from "rxjs";
+import {GameResultCollection} from "../../../../../both/collections/gameResult.collection";
+import {GameResult} from "../../../../../both/models/gameResult.model";
+import {GivenAnswer} from "../../../../../both/models/givenAnswers.model";
+import undefined = Match.undefined;
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     template,
@@ -18,10 +24,22 @@ export class ManageComponent implements OnInit {
 
     private routeSubscription : Subscription;
     private currentQuestionSubscription : Subscription;
+    private answersFromCompetitorSubscription : Subscription;
 
     private game : Game;
     private currentQuestion : number;
     private quiz : Quiz;
+    private results : GameResult;
+
+    showResult : boolean = false;
+
+    givenAnswers : number;
+    answersTotal : number;
+    answerResults1 : number;
+    answerResults2 : number;
+    answerResults3 : number;
+    answerResults4 : number;
+
 
     //Question properties for View
     question : string;
@@ -41,8 +59,11 @@ export class ManageComponent implements OnInit {
             });
 
         this.currentQuestion = 0;
-
-
+        //Funktioniert:
+        // let timer = Observable.timer(5000, 1000);
+        // timer.subscribe(t=>{
+        //     this.nextQuestion();
+        // });
     }
 
     ngOnDestroy() {
@@ -56,6 +77,7 @@ export class ManageComponent implements OnInit {
             //next async requests:
             this.getQuestionsFromGame(game.quizId);
             this.subscribeCurrentQuestion(game._id);
+            this.subscribeAnswersFromCompetitor(game.gameResultId);
         }, (error) => {
             alert(`Error: ${error}`);
             throw new Error(error);
@@ -65,6 +87,8 @@ export class ManageComponent implements OnInit {
     private getQuestionsFromGame(quizId: string) : void {
         MeteorObservable.call('fetchQuizById', quizId).subscribe((quiz : Quiz) => {
             this.quiz = quiz;
+            //Call first question in quiz
+            this.nextQuestion();
         }, (error) => {
             alert(`Error: ${error}`);
             throw new Error(error);
@@ -78,6 +102,12 @@ export class ManageComponent implements OnInit {
             .subscribe(game => this.fillNextQuestion(game.currentQuestion));
     }
 
+    private subscribeAnswersFromCompetitor(gameResultId: string) {
+        this.answersFromCompetitorSubscription = GameResultCollection.find(gameResultId)
+            .map(gameResult => gameResult[0])
+            .subscribe(gameResult => this.answerFromCompetitor(gameResult));
+    }
+
     nextQuestion() : void {
         this.currentQuestion++;
         if(this.quiz.questions.length >= this.currentQuestion) {
@@ -85,6 +115,8 @@ export class ManageComponent implements OnInit {
             MeteorObservable.call('changeCurrentQuestion',
                 this.game._id,
                 this.quiz.questions[this.currentQuestion - 1]).subscribe();
+
+            this.showResults(false);
         }
     }
 
@@ -96,5 +128,56 @@ export class ManageComponent implements OnInit {
             this.answer3 = newQuestion.answers[2].answer;
             this.answer4 = newQuestion.answers[3].answer;
         }
+    }
+
+    showResults(show : boolean) : void {
+        if(this.game != undefined && show != undefined){
+            MeteorObservable.call('toggleResults', this.game._id, show).subscribe();
+            this.showResult = show;
+            if (show) {
+                this.calculateResults();
+            }
+        }
+    }
+
+    private answerFromCompetitor(gameResult: GameResult) {
+        console.log("new Results");
+        this.givenAnswers++;
+        this.results = gameResult;
+    }
+
+    private calculateResults() {
+        console.log("calculate.....");
+        let givenAnswers : GivenAnswer[] = this.results.givenAnswers[this.currentQuestion - 1];
+        let rightAnswer : number;
+
+        if(this.quiz.questions[this.currentQuestion - 1].answers[0].right){
+            rightAnswer = 1;
+        }else if(this.quiz.questions[this.currentQuestion - 1].answers[1].right){
+            rightAnswer = 2;
+        }else if(this.quiz.questions[this.currentQuestion - 1].answers[2].right){
+            rightAnswer = 3;
+        }else {
+            rightAnswer = 4
+        }
+        if(givenAnswers != undefined) {
+            for(let givenAnswer of givenAnswers) {
+                if(givenAnswer.givenAnswer == rightAnswer) {
+                    MeteorObservable.call("updateScore", givenAnswer.playerId, 1).subscribe();
+                }
+
+                if(givenAnswer.givenAnswer == 1) {
+                    this.answerResults1++;
+
+                } else if(givenAnswer.givenAnswer == 1) {
+                    this.answerResults2++;
+                } else if(givenAnswer.givenAnswer == 1) {
+                    this.answerResults3++;
+                }else {
+                    this.answerResults4++;
+                }
+            }
+        }
+
     }
 }

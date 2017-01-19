@@ -1,11 +1,20 @@
-<h2>Manage Component</h2>
-<p>mock data</p>
-{{question}}<br />
-{{answer1}}<br />
-{{answer2}}<br />
-{{answer3}}<br />
-{{answer4}}<br />
-
+<div *ngIf="!this.showResult" class="quiz">
+    <div class="question">{{question}}</div>
+    <div class="answers">
+        <div class="row">
+            <button md-raised-button class="answer">{{answer1}}</button>
+            <button md-raised-button class="answer">{{answer2}}</button>
+        </div>
+        <div class="row">
+            <button md-raised-button class="answer">{{answer3}}</button>
+            <button md-raised-button class="answer">{{answer4}}</button>
+        </div>
+    </div>
+    <button type="submit" md-raised-button (click)="showResults(true)">Show Results</button>
+</div>
+<div *ngIf="this.showResult" class="quiz">
+    <button type="submit" md-raised-button (click)="nextQuestion()">Next Question </button>
+</div>
 <table>
         <tr>
             <th>Quiz Name</th>
@@ -16,4 +25,4 @@
             <td>2</td>
         </tr>
 </table>
-<button type="submit" md-raised-button (click)="nextQuestion()">Next Question </button>
+

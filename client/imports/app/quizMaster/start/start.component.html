@@ -1,16 +1,14 @@
-<h2>Start the Quizza</h2>
-<p>You want to start a new Quizza from ID {{quizId}}</p>
-<p>Name of the Quizza: {{quizName}}</p>
-<p>This Quizza has {{questions}} question(s).</p>
-<br>
-<p>@Competitors: The game ID for this Quizza is <b>{{gameNumber}}</b></p>
-<br><br>
-<div>
-    <h3>Competitors</h3>
-    <md-list>
-        <md-list-item *ngFor="let player of players">
-            {{player}}
-        </md-list-item>
-    </md-list>
-    <a [routerLink]="['/master/manage', gameNumber]" md-raised-button color="warn">Start Quizza</a>
+<div class="startPage">
+    <div class="gameInfo">
+        <h3>{{quizName}}</h3>
+        <p>This Quizza has {{questions}} question(s).</p>
+        <p>The game ID for this Quizza is <b>{{gameNumber}}</b></p>
+        <a (click)="startQuiz()" md-raised-button color="warn">Start Quizza</a>
+    </div>
+    <div class="playerList">
+        <h3 style="margin:10px;">Players:</h3>
+        <div>
+            <div class="player" *ngFor="let player of players">{{player}}</div>
+        </div>
+    </div>
 </div>

@@ -1,10 +1,17 @@
-<h2>Answer the question</h2>
-
-{{game}}<br />
-{{quizId}}<br />
-
-{{question}}<br />
-{{answer1}}<br />
-{{answer2}}<br />
-{{answer3}}<br />
-{{answer4}}<br />
+<h2>Your Score: {{score}}</h2>
+<div *ngIf="!showResult" class="quiz">
+    <div class="question">{{question}}</div>
+    <div class="answers">
+        <div class="row">
+            <button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 1}" (click)="!answerGiven && answerQuestion(1)">{{answer1}}</button>
+            <button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 2}" (click)="!answerGiven && answerQuestion(2)">{{answer2}}</button>
+        </div>
+        <div class="row">
+            <button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 3}" (click)="!answerGiven && answerQuestion(3)">{{answer3}}</button>
+            <button md-raised-button class="answer" [ngClass]="{'disabled': answerGiven, 'selected': selectedAnswer == 4}" (click)="!answerGiven && answerQuestion(4)">{{answer4}}</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="showResult" class="quiz">
+    <p style="margin: auto;text-align: center">Waiting for the quiz master to continue with the next question...</p>
+</div>
