@@ -28,7 +28,9 @@ Meteor.methods({
         //search for games by gameNumber
         return GameCollection.findOne({gameNumber: gameNumber});
     },
-
+    fetchNotRunningGameByNumber : function(gameNumber : string) {
+        return GameCollection.findOne({gameNumber : gameNumber, running : false});
+    },
     joinGame: function(gameId:string, player: Player) {
         let game = GameCollection.findOne({_id: gameId, running: false});
         if (game == undefined) {
