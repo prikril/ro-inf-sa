@@ -18,6 +18,7 @@ Meteor.methods({
         game.players = [];
         game.showResult = false;
         game.timer = 20;
+        game.questionStarted = 0;
 
         let id : string;
         id = GameCollection.collection.insert(game);
@@ -46,10 +47,12 @@ Meteor.methods({
     },
     changeCurrentQuestion: function(gameId:string, question : Question) {
         let game = GameCollection.findOne(gameId);
+        let questionStarted = Date.now();
 
         GameCollection.update(gameId, {$set: {
             currentQuestion : question,
-            currentIndex : ++game.currentIndex
+            currentIndex : ++game.currentIndex,
+            questionStarted : questionStarted
            }});
     },
     toggleResults: function(gameId:string, showResults : boolean) {
