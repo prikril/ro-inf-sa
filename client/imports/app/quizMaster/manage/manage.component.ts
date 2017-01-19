@@ -16,6 +16,8 @@ import {GameResult} from "../../../../../both/models/gameResult.model";
 import {GivenAnswer} from "../../../../../both/models/givenAnswers.model";
 import undefined = Match.undefined;
 import {forEach} from "@angular/router/src/utils/collection";
+import {PlayerCollection} from "../../../../../both/collections/player.collection";
+import {Player} from "../../../../../both/models/player.model";
 
 @Component({
     template,
@@ -26,6 +28,7 @@ export class ManageComponent implements OnInit {
     private routeSubscription : Subscription;
     private currentQuestionSubscription : Subscription;
     private answersFromCompetitorSubscription : Subscription;
+    private playerSubscription : Subscription;
 
     private timerSubscription : Subscription;
 
@@ -34,6 +37,7 @@ export class ManageComponent implements OnInit {
     private quiz : Quiz;
     private results : GameResult;
     private timer : number;
+    private players : Player[];
 
     showResult : boolean = false;
 
@@ -76,6 +80,8 @@ export class ManageComponent implements OnInit {
     ngOnDestroy() {
         this.routeSubscription.unsubscribe();
         this.currentQuestionSubscription.unsubscribe();
+        this.answersFromCompetitorSubscription .unsubscribe();
+        this.playerSubscription .unsubscribe();
     }
 
     private getGameFromServer(gameNumber : string) : void{
@@ -86,6 +92,7 @@ export class ManageComponent implements OnInit {
             this.getQuestionsFromGame(game.quizId);
             this.subscribeCurrentQuestion(game._id);
             this.subscribeAnswersFromCompetitor(game.gameResultId);
+            this.subscribePlayers(game._id);
         }, (error) => {
             alert(`Error: ${error}`);
             throw new Error(error);
@@ -116,6 +123,11 @@ export class ManageComponent implements OnInit {
         this.answersFromCompetitorSubscription = GameResultCollection.find(gameResultId)
             .map(gameResult => gameResult[0])
             .subscribe(gameResult => this.answerFromCompetitor(gameResult));
+    }
+
+    private subscribePlayers(gameId : string) {
+        this.playerSubscription = PlayerCollection.find({gameId : gameId})
+            .subscribe(playerResults => this.playerChanges(playerResults));
     }
 
     nextQuestion() : void {
@@ -192,6 +204,10 @@ export class ManageComponent implements OnInit {
         }
     }
 
+    private playerChanges(players : Player[]) : void {
+        this.players = players;
+    }
+
     private calculateResults() {
         let givenAnswers : GivenAnswer[] = this.results.givenAnswers[this.currentQuestion - 1];
         for(let i = 0; i < 4; i++) {
@@ -204,7 +220,6 @@ export class ManageComponent implements OnInit {
         if(givenAnswers != undefined) {
             for(let givenAnswer of givenAnswers) {
                 if(givenAnswer.givenAnswer == this.rightAnswer) {
-                    console.log(givenAnswer.timeAnswered);
                     let scoreIncrease : number;
                     let scoreDecrease : number;
 
