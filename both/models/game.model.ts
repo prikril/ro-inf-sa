@@ -5,10 +5,10 @@ import {GivenAnswer} from "./givenAnswers.model";
 export class Game {
     _id: string;
     quizId: string;
+    gameResultId : string;
     gameNumber: string;
     running: boolean;
     players: Player[];
     currentQuestion : Question;
     currentIndex : number;
-    givenAnswers : GivenAnswer[];
 }

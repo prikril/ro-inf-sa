@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import {GameCollection} from "../../both/collections/game.collection";
 import {Player} from "../../both/models/player.model";
 import {PlayerCollection} from "../../both/collections/player.collection";
+import undefined = Match.undefined;
 
 
 Meteor.methods({
@@ -24,9 +25,11 @@ Meteor.methods({
     },
 
     updateScore: function(playerId: string, addToScore : number) {
-        let player = GameCollection.findOne(playerId);
-        let score = player.players; //TODO: increase???
-        PlayerCollection.update({_id: playerId}, {$set: {score: score}});
+        let player = PlayerCollection.findOne(playerId);
+        if (player == undefined) {
+            return;
+        }
+        PlayerCollection.update(playerId, {$set: {score: player.score + addToScore}});
     }
 });
 

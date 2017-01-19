@@ -9,6 +9,7 @@ import {Quiz} from "../../../../../both/models/quiz.model";
 import {Game} from "../../../../../both/models/game.model";
 import {Player} from "../../../../../both/models/player.model";
 import {GameCollection} from "../../../../../both/collections/game.collection";
+import {GameResult} from "../../../../../both/models/gameResult.model";
 
 @Component({
     template,
@@ -59,11 +60,20 @@ export class StartComponent implements OnInit, OnDestroy {
     }
 
     private generateGameNumber(quizId: string) {
-        MeteorObservable.call('addGame', quizId).subscribe((game : Game) => {
+        MeteorObservable.call("addGameResult", quizId).subscribe((gameResult : GameResult) => {
+            this.createGame(quizId, gameResult._id)
+        }, (error) => {
+            alert(error);
+        });
+
+    }
+
+    private createGame(quizId : string, gameResultId : string) {
+        MeteorObservable.call('addGame', quizId, gameResultId).subscribe((game : Game) => {
             this.gameNumber = game.gameNumber;
             this.subscribeGame(game._id);
         }, (error) =>{
-           alert(error);
+            alert(error);
         });
     }
 
