@@ -99,6 +99,8 @@ export class ManageComponent implements OnInit {
     }
 
     showResults(show : boolean) : void {
-        MeteorObservable.call('toggleResults', this.game._id, show).subscribe();
+        if(this.game != undefined && show != undefined){
+            MeteorObservable.call('toggleResults', this.game._id, show).subscribe();
+        }
     }
 }
