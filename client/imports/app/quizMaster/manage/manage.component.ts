@@ -12,6 +12,9 @@ import {GameCollection} from "../../../../../both/collections/game.collection";
 import {Observable} from "rxjs";
 import {GameResultCollection} from "../../../../../both/collections/gameResult.collection";
 import {GameResult} from "../../../../../both/models/gameResult.model";
+import {GivenAnswer} from "../../../../../both/models/givenAnswers.model";
+import undefined = Match.undefined;
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     template,
@@ -26,6 +29,7 @@ export class ManageComponent implements OnInit {
     private game : Game;
     private currentQuestion : number;
     private quiz : Quiz;
+    private results : GameResult;
 
     showResult : boolean = false;
 
@@ -130,10 +134,50 @@ export class ManageComponent implements OnInit {
         if(this.game != undefined && show != undefined){
             MeteorObservable.call('toggleResults', this.game._id, show).subscribe();
             this.showResult = show;
+            if (show) {
+                this.calculateResults();
+            }
         }
     }
 
     private answerFromCompetitor(gameResult: GameResult) {
+        console.log("new Results");
         this.givenAnswers++;
+        this.results = gameResult;
+    }
+
+    private calculateResults() {
+        console.log("calculate.....");
+        let givenAnswers : GivenAnswer[] = this.results.givenAnswers[this.currentQuestion - 1];
+        let rightAnswer : number;
+
+        if(this.quiz.questions[this.currentQuestion - 1].answers[0].right){
+            rightAnswer = 1;
+        }else if(this.quiz.questions[this.currentQuestion - 1].answers[1].right){
+            rightAnswer = 2;
+        }else if(this.quiz.questions[this.currentQuestion - 1].answers[2].right){
+            rightAnswer = 3;
+        }else {
+            rightAnswer = 4
+        }
+        if(givenAnswers != undefined) {
+            for(let givenAnswer of givenAnswers) {
+                if(givenAnswer.givenAnswer == rightAnswer) {
+                    MeteorObservable.call("updateScore", givenAnswer.playerId, 1).subscribe();
+                }
+
+                if(givenAnswer.givenAnswer == 1) {
+                    this.answerResults1++;
+
+                } else if(givenAnswer.givenAnswer == 1) {
+                    this.answerResults2++;
+                } else if(givenAnswer.givenAnswer == 1) {
+                    this.answerResults3++;
+                }else {
+                    this.answerResults4++;
+                }
+            }
+        }
+
     }
 }

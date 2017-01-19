@@ -68,8 +68,6 @@ export class QuestionComponent implements OnInit {
             this.playerId,
             answer).subscribe();
 
-        MeteorObservable.call('updateScore', this.playerId, 1).subscribe();
-
         this.answerGiven = true;
         this.selectedAnswer = answer;
     }
