@@ -8,6 +8,7 @@ import { MaterialModule } from '@angular/material';
 import { routes } from './app.routes';
 import { QuizMasterModule } from "./quizMaster/quizMaster.module";
 import {CompetitorModule} from "./competitor/competitor.module";
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
     // Components, Pipes, Directive
@@ -29,7 +30,8 @@ import {CompetitorModule} from "./competitor/competitor.module";
         MaterialModule.forRoot(),
         RouterModule.forRoot(routes),
         QuizMasterModule,
-        CompetitorModule
+        CompetitorModule,
+        ChartsModule
     ],
     // Main Component
     bootstrap: [AppComponent]
