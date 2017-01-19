@@ -24,3 +24,27 @@
   margin: 10px;
   padding: 20px;
 }
+.results {
+  width:90%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  margin:auto;
+
+  max-width:100%;
+  max-height:100%;
+  overflow:auto;
+  display: flex;
+}
+.stats {
+  width: auto;
+  height: 600px;
+  flex: 1;
+}
+.leaderboard {
+  margin: 20pt 0 20pt 20pt;
+  width: auto;
+  flex: 1;
+}
