@@ -14,6 +14,7 @@ import {BrowserModule} from "@angular/platform-browser";
         RouterModule.forChild([
             { path: 'master/create', component: CreateComponent },
             { path: 'master/manage/:gameNumber', component: ManageComponent },
+            { path: 'master/manage/:gameNumber/:timer', component: ManageComponent },
             { path: 'master/start/:quizId', component: StartComponent },
             { path: 'master/list', component: ListComponent}
         ]),

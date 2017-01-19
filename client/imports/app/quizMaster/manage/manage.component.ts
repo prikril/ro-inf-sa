@@ -30,6 +30,7 @@ export class ManageComponent implements OnInit {
     private currentQuestion : number;
     private quiz : Quiz;
     private results : GameResult;
+    private timer : number;
 
     showResult : boolean = false;
 
@@ -55,6 +56,7 @@ export class ManageComponent implements OnInit {
             (param : any) => {
                 let gameNumber : string;
                 gameNumber = param['gameNumber'];
+                this.timer = param['timer'];
                 this.getGameFromServer(gameNumber);
             });
 
