@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import template from './manage.component.html';
 import style from './manage.component.scss';
+import { BarChartComponent } from './barchart/barchart.component';
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from 'rxjs/Subscription';
 import {Game} from "../../../../../both/models/game.model";
