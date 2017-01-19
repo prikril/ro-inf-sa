@@ -26,7 +26,8 @@ export class ManageComponent implements OnInit {
     private routeSubscription : Subscription;
     private currentQuestionSubscription : Subscription;
     private answersFromCompetitorSubscription : Subscription;
-    private timerSubscription : Observable;
+
+    private timerSubscription : Subscription;
 
     private game : Game;
     private currentQuestion : number;
@@ -79,6 +80,7 @@ export class ManageComponent implements OnInit {
     private getGameFromServer(gameNumber : string) : void{
         MeteorObservable.call('fetchGameByNumber', gameNumber).subscribe((game : Game) => {
             this.game = game;
+            this.timer = game.timer;
             //next async requests:
             this.getQuestionsFromGame(game.quizId);
             this.subscribeCurrentQuestion(game._id);
@@ -92,6 +94,8 @@ export class ManageComponent implements OnInit {
     private getQuestionsFromGame(quizId: string) : void {
         MeteorObservable.call('fetchQuizById', quizId).subscribe((quiz : Quiz) => {
             this.quiz = quiz;
+            this.answersTotal = quiz.questions.length;
+            
             //Call first question in quiz
             this.nextQuestion();
         }, (error) => {
@@ -149,20 +153,19 @@ export class ManageComponent implements OnInit {
     private setTimer() : void {
         this.currentTimer = this.timer;
 
-        this.timerSubscription = Observable.timer(1000, 1000)
+        let timerObservable = Observable.timer(1000, 1000)
             .timeInterval()
             .pluck('interval')
             .take(this.timer);
-        ;
-        this.timerSubscription.subscribe(t=>{
-            this.decreaseTimer(t);
+
+        this.timerSubscription = timerObservable.subscribe(()=>{
+            this.decreaseTimer();
         });
     }
 
-    private decreaseTimer(x) : void {
+    private decreaseTimer() : void {
         this.currentTimer--;
-        console.log(x);
-        if(this.currentTimer <= 0) {
+        if(this.currentTimer <= 0 && !this.showResult) {
             this.showResults(true);
         }
     }
@@ -178,9 +181,13 @@ export class ManageComponent implements OnInit {
     }
 
     private answerFromCompetitor(gameResult: GameResult) {
-        console.log("new Results");
         this.givenAnswers++;
         this.results = gameResult;
+
+        if(this.givenAnswers >= this.game.players.length) {
+            this.timerSubscription.unsubscribe();
+            this.showResults(true);
+        }
     }
 
     private calculateResults() {

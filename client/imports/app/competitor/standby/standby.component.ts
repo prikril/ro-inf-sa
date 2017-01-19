@@ -42,7 +42,7 @@ export class StandbyComponent implements OnInit {
         if (this.joinForm.valid) {
             let gameNumber = formValues["gameNumber"];
             let name = formValues["name"];
-            MeteorObservable.call('fetchGameByNumber', gameNumber).subscribe((game : Game) => {
+            MeteorObservable.call('fetchNotRunningGameByNumber', gameNumber).subscribe((game : Game) => {
                 if (game == null) {
                     this.foundGame = false;
                 } else {
