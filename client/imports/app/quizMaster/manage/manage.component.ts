@@ -9,6 +9,7 @@ import {MeteorObservable} from "meteor-rxjs";
 import {Question} from "../../../../../both/models/question.model";
 import {Quiz} from "../../../../../both/models/quiz.model";
 import {GameCollection} from "../../../../../both/collections/game.collection";
+import {Observable} from "rxjs";
 
 @Component({
     template,
@@ -41,6 +42,11 @@ export class ManageComponent implements OnInit {
             });
 
         this.currentQuestion = 0;
+        //Funktioniert:
+        // let timer = Observable.timer(5000, 1000);
+        // timer.subscribe(t=>{
+        //     this.nextQuestion();
+        // });
     }
 
     ngOnDestroy() {
@@ -63,6 +69,8 @@ export class ManageComponent implements OnInit {
     private getQuestionsFromGame(quizId: string) : void {
         MeteorObservable.call('fetchQuizById', quizId).subscribe((quiz : Quiz) => {
             this.quiz = quiz;
+            //Call first question in quiz
+            this.nextQuestion();
         }, (error) => {
             alert(`Error: ${error}`);
             throw new Error(error);

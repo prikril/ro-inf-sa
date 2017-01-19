@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import template from './start.component.html';
 import style from './start.component.scss';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { Subscription } from 'rxjs/Subscription';
 import {MeteorObservable} from "meteor-rxjs";
 import {Quiz} from "../../../../../both/models/quiz.model";
@@ -10,6 +10,7 @@ import {Game} from "../../../../../both/models/game.model";
 import {Player} from "../../../../../both/models/player.model";
 import {GameCollection} from "../../../../../both/collections/game.collection";
 import {GameResult} from "../../../../../both/models/gameResult.model";
+import {ok} from "assert";
 
 @Component({
     template,
@@ -23,10 +24,11 @@ export class StartComponent implements OnInit, OnDestroy {
     questions: number;
     players: string[];
     gameNumber: string;
+    gameId : string;
     private gameSubscription: Subscription;
 
 
-    constructor(private activatedRoute: ActivatedRoute) { }
+    constructor(private activatedRoute: ActivatedRoute, private router : Router) { }
 
     ngOnInit() {
         // subscribe to router event
@@ -59,6 +61,19 @@ export class StartComponent implements OnInit, OnDestroy {
         });
     }
 
+    startQuiz() {
+        console.log("change");
+        MeteorObservable.call("startGame", this.gameId).subscribe((success : boolean) => {
+            console.log("ok?");
+            if(success) {
+                console.log("ok!");
+                this.router.navigateByUrl('master/manage/'+this.gameNumber);
+            }
+        });
+
+
+    }
+
     private generateGameNumber(quizId: string) {
         MeteorObservable.call("addGameResult", quizId).subscribe((gameResult : GameResult) => {
             this.createGame(quizId, gameResult._id)
@@ -71,6 +86,7 @@ export class StartComponent implements OnInit, OnDestroy {
     private createGame(quizId : string, gameResultId : string) {
         MeteorObservable.call('addGame', quizId, gameResultId).subscribe((game : Game) => {
             this.gameNumber = game.gameNumber;
+            this.gameId = game._id;
             this.subscribeGame(game._id);
         }, (error) =>{
             alert(error);

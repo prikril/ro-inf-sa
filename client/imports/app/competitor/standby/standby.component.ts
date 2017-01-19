@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import template from './standby.component.html';
 import style from "./standby.component.scss";
+import {Subscription} from 'rxjs/Subscription';
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {MeteorObservable} from "meteor-rxjs";
 import {Game} from "../../../../../both/models/game.model";
 import {Player} from "../../../../../both/models/player.model";
 import {Router} from "@angular/router";
+import {GameCollection} from "../../../../../both/collections/game.collection";
 
 @Component({
     selector: 'standby',
@@ -14,6 +16,7 @@ import {Router} from "@angular/router";
     styles: [style]
 })
 export class StandbyComponent implements OnInit {
+    private quizStartSubscription : Subscription;
 
     joinForm: FormGroup;
     foundGame: boolean;
@@ -29,6 +32,10 @@ export class StandbyComponent implements OnInit {
             gameNumber: ['', Validators.required],
             name: ['', Validators.required]
         });
+    }
+
+    ngOnDestroy() {
+        this.quizStartSubscription.unsubscribe();
     }
 
     join(formValues: Object) {
@@ -67,12 +74,26 @@ export class StandbyComponent implements OnInit {
                 //player added
                 this.playerId = player._id;
 
-                this.router.navigateByUrl('competitor/question/'+this.playerId);
-                //TODO: weiterleitung erst wenn Spiel freigegeben wurde
+                this.subscribeGame(gameId);
             }
 
         }, (error) => {
             alert(`Error: ${error}`);
         });
+    }
+
+    private subscribeGame(gameId: string) {
+        this.quizStartSubscription = GameCollection.find(gameId)
+            .map(games => games[0]) // game => games[0] picks first game found by _id, should only find one game
+            .subscribe(game => this.quizStart(game));
+    }
+
+    private quizStart(game : Game){
+        console.log("Quiz start?");
+        console.log(game);
+        if(game != undefined && game.running) {
+            console.log("Quiz start!");
+            this.router.navigateByUrl('competitor/question/'+this.playerId);
+        }
     }
 }
