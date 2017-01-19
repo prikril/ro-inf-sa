@@ -15,7 +15,9 @@
 </div>
 <div *ngIf="this.showResult" class="results">
     <div class="stats">
-        <bar-chart [question]='question'
+        <h2>{{question}}</h2>
+        <bar-chart
+                [rightAnswer]="rightAnswer"
                 [answer1]="answer1"
                 [answer2]="answer2"
                 [answer3]="answer3"
