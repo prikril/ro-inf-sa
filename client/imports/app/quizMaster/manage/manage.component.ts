@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import template from './manage.component.html';
 import style from './manage.component.scss';
+import { BarChartComponent } from './barchart/barchart.component';
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from 'rxjs/Subscription';
 import {Game} from "../../../../../both/models/game.model";
@@ -118,6 +119,7 @@ export class ManageComponent implements OnInit {
                 this.game._id,
                 this.quiz.questions[this.currentQuestion - 1]).subscribe();
 
+            this.initializeResultProperties();
             this.showResults(false);
         }
     }
@@ -130,6 +132,15 @@ export class ManageComponent implements OnInit {
             this.answer3 = newQuestion.answers[2].answer;
             this.answer4 = newQuestion.answers[3].answer;
         }
+    }
+
+    private initializeResultProperties() : void {
+        this.answerResults1 = 0;
+        this.answerResults2 = 0;
+        this.answerResults3 = 0;
+        this.answerResults4 = 0;
+
+        this.givenAnswers = 0;
     }
 
     showResults(show : boolean) : void {
@@ -149,7 +160,6 @@ export class ManageComponent implements OnInit {
     }
 
     private calculateResults() {
-        console.log("calculate.....");
         let givenAnswers : GivenAnswer[] = this.results.givenAnswers[this.currentQuestion - 1];
         let rightAnswer : number;
 

@@ -5,9 +5,11 @@ import { CreateComponent } from './create/create.component';
 import { ManageComponent } from './manage/manage.component';
 import { StartComponent } from './start/start.component';
 import { ListComponent } from './list/list.component';
+import { BarChartComponent } from './manage/barchart/barchart.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@angular/material";
 import {BrowserModule} from "@angular/platform-browser";
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
     imports: [
@@ -21,14 +23,16 @@ import {BrowserModule} from "@angular/platform-browser";
         FormsModule,
         ReactiveFormsModule,
         MaterialModule.forRoot(),
-        BrowserModule
+        BrowserModule,
+        ChartsModule
     ],
     exports: [],
     declarations: [
         CreateComponent,
         ManageComponent,
         StartComponent,
-        ListComponent
+        ListComponent,
+        BarChartComponent
     ],
     providers: [],
 })
