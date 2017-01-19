@@ -12,4 +12,5 @@ export class Game {
     players: Player[];
     currentQuestion : Question;
     currentIndex : number;
+    timer : number;
 }

@@ -17,6 +17,7 @@ Meteor.methods({
         game.running = false;
         game.players = [];
         game.showResult = false;
+        game.timer = 20;
 
         let id : string;
         id = GameCollection.collection.insert(game);
@@ -54,13 +55,15 @@ Meteor.methods({
             showResult : showResults
         }});
     },
-    startGame: function (gameId: string) : boolean{
+    startGame: function (gameId: string, timer : number) : boolean{
         let game = GameCollection.findOne({_id : gameId, running : false});
 
         if (game == undefined) {
             return false;
         }
-        GameCollection.update(game._id, {$set: {running : true}});
+        GameCollection.update(game._id, {$set: {
+            running : true,
+            timer : timer}});
         return true;
     }
 });

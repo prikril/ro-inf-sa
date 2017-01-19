@@ -1,6 +1,6 @@
 <div *ngIf="!this.showResult" class="quiz">
+    <h2>{{currentTimer}}</h2>
     <div class="question">{{question}}</div>
-    <div class="timer">{{currentTimer}}</div>
     <div class="answers">
         <div class="row">
             <button md-raised-button class="answer">{{answer1}}</button>
@@ -25,4 +25,3 @@
                 [votes4]="answerResults4"></bar-chart>
     <button type="submit" md-raised-button (click)="nextQuestion()">Next Question </button>
 </div>
-

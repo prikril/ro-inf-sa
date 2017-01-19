@@ -33,8 +33,8 @@ export class StartComponent implements OnInit, OnDestroy {
     constructor(private activatedRoute: ActivatedRoute, private router : Router) { }
 
     ngOnInit() {
-        //TODO Mock:
-        this.timer = 10;
+        this.timer = 20;
+
         // subscribe to router event
         this.subscription = this.activatedRoute.params.subscribe(
             (param: any) => {
@@ -66,9 +66,9 @@ export class StartComponent implements OnInit, OnDestroy {
     }
 
     startQuiz() {
-        MeteorObservable.call("startGame", this.gameId).subscribe((success : boolean) => {
+        MeteorObservable.call("startGame", this.gameId, this.timer).subscribe((success : boolean) => {
             if(success) {
-                this.router.navigateByUrl('master/manage/' + this.gameNumber + "/" +  this.timer);
+                this.router.navigateByUrl('master/manage/' + this.gameNumber);
             }
         });
 

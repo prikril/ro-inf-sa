@@ -79,6 +79,7 @@ export class ManageComponent implements OnInit {
     private getGameFromServer(gameNumber : string) : void{
         MeteorObservable.call('fetchGameByNumber', gameNumber).subscribe((game : Game) => {
             this.game = game;
+            this.timer = game.timer;
             //next async requests:
             this.getQuestionsFromGame(game.quizId);
             this.subscribeCurrentQuestion(game._id);
