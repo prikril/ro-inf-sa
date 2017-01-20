@@ -18,7 +18,7 @@
                             <div class="answer" *ngFor="let answer of question.controls.answers.controls; let j=index">
                                 <div [formGroupName]="j">
                                     <md-input placeholder="Answer {{j + 1}}" formControlName="answer"></md-input>
-                                    <md-checkbox formControlName="right" (click)="checkRightAnswer(i)">is correct</md-checkbox>
+                                    <md-checkbox formControlName="right" (keypress)="checkRightAnswer(i)" (click)="checkRightAnswer(i)">is correct</md-checkbox>
                                 </div>
                             </div>
                         </div>
