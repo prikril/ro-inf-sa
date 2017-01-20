@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@angular/material";
 import {BrowserModule} from "@angular/platform-browser";
 import { ChartsModule } from 'ng2-charts';
+import {LeaderboardComponent} from "./manage/leaderboard/leaderboard.component";
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { ChartsModule } from 'ng2-charts';
         ManageComponent,
         StartComponent,
         ListComponent,
-        BarChartComponent
+        BarChartComponent,
+        LeaderboardComponent
     ],
     providers: [],
 })

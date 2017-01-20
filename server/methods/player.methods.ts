@@ -24,6 +24,13 @@ Meteor.methods({
         return PlayerCollection.findOne({_id: playerId, playing: true});
     },
 
+    fetchPlayerByGameId: function(gameId: string) {
+        let res = PlayerCollection.collection.find({gameId : gameId}).fetch();
+        console.log(gameId);
+        console.log(res);
+        return res;
+    },
+
     updateScore: function(playerId: string, addToScore : number) {
         let player = PlayerCollection.findOne(playerId);
         if (player == undefined) {

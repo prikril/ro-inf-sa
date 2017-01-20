@@ -92,7 +92,7 @@ export class ManageComponent implements OnInit {
             this.getQuestionsFromGame(game.quizId);
             this.subscribeCurrentQuestion(game._id);
             this.subscribeAnswersFromCompetitor(game.gameResultId);
-            this.subscribePlayers(game._id);
+            this.updatePlayer();
         }, (error) => {
             alert(`Error: ${error}`);
             throw new Error(error);
@@ -123,11 +123,6 @@ export class ManageComponent implements OnInit {
         this.answersFromCompetitorSubscription = GameResultCollection.find(gameResultId)
             .map(gameResult => gameResult[0])
             .subscribe(gameResult => this.answerFromCompetitor(gameResult));
-    }
-
-    private subscribePlayers(gameId : string) {
-        this.playerSubscription = PlayerCollection.find({gameId : gameId})
-            .subscribe(playerResults => this.playerChanges(playerResults));
     }
 
     nextQuestion() : void {
@@ -190,8 +185,16 @@ export class ManageComponent implements OnInit {
             this.showResult = show;
             if (show) {
                 this.calculateResults();
+                this.updatePlayer();
             }
         }
+    }
+
+    private updatePlayer() {
+        MeteorObservable.call('fetchPlayerByGameId', this.game._id).subscribe(
+            (p: Player[]) => this.players = p,
+            (error) => console.log(error)
+        );
     }
 
     private answerFromCompetitor(gameResult: GameResult) {
@@ -201,11 +204,8 @@ export class ManageComponent implements OnInit {
         if(this.givenAnswers >= this.game.players.length) {
             this.timerSubscription.unsubscribe();
             this.showResults(true);
-        }
-    }
 
-    private playerChanges(players : Player[]) : void {
-        this.players = players;
+        }
     }
 
     private calculateResults() {

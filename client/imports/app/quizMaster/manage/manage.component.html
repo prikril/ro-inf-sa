@@ -28,5 +28,8 @@
                 [votes4]="answerResults4"></bar-chart>
         <button type="submit" md-raised-button (click)="nextQuestion()">Next Question </button>
     </div>
-    <div class="leaderboard"><h2>Leaderboard</h2></div>
+    <div class="leaderboard">
+        <h2>Leaderboard</h2>
+        <leaderboard [players]="players"></leaderboard>
+    </div>
 </div>
