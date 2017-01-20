@@ -1,0 +1,27 @@
+<!--<md-sidenav-layout>
+  <md-sidenav #sidenav mode="side" class="app-sidenav">
+      <md-list>
+          <md-list-item> <a routerLink="/list">List</a> </md-list-item>
+          <md-list-item> <a routerLink="/master/create">Create</a> </md-list-item>
+          <md-list-item> <a routerLink="/master/manage">Manage</a> </md-list-item>
+          <md-list-item> <a routerLink="/master/start">Start</a> </md-list-item>
+      </md-list>
+  </md-sidenav>-->
+
+
+  <md-toolbar color="primary">
+    <!--<button class="app-icon-button" (click)="sidenav.toggle()">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button>-->
+      <ul>
+          <li><a routerLink="/" class="toolbar-title">Quizza</a></li>
+      </ul>
+    <span class="fill-remaining-space"></span>
+  </md-toolbar>
+
+
+  <div class="app-content">
+    <router-outlet></router-outlet>
+  </div>
+</md-sidenav-layout>
+

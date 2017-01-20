@@ -1,0 +1,21 @@
+<h2>Quizzas</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Questions</th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let q of quizList | async">
+        <td>{{q.name}}</td>
+        <td>{{q._id}}</td>
+        <td>{{q.questions.length}}</td>
+        <td><a [routerLink]="['/master/start', q._id]" md-raised-button color="primary">Start Quizza</a></td>
+    </tr>
+</table>
+<br>
+<a [routerLink]="['/master/create']" md-raised-button color="warn">Create a new Quizza</a>
+<br>
+<br>
+

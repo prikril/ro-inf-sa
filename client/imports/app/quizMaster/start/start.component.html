@@ -1,0 +1,17 @@
+<div class="startPage">
+    <div class="gameInfo">
+        <h3>{{quizName}}</h3>
+        <p>This Quizza has {{questions}} question(s).</p>
+        <p>The game ID for this Quizza is <b>{{gameNumber}}</b></p>
+        <label>
+            Timer: <input type="number" [(ngModel)]="timer">
+        </label>
+        <a (click)="startQuiz()" md-raised-button color="warn">Start Quizza</a>
+    </div>
+    <div class="playerList">
+        <h3 style="margin:10px;">Players:</h3>
+        <div>
+            <div class="player" *ngFor="let player of players">{{player}}</div>
+        </div>
+    </div>
+</div>

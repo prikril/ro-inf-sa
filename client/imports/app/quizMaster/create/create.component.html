@@ -1,0 +1,34 @@
+<form [formGroup]="quizForm" novalidate class="quizForm">
+    <md-card>
+        <md-card-title>Create a new Quiz</md-card-title>
+        <md-card-content>
+            <md-input placeholder="Quizza name" formControlName="name" class="full-width">
+                <md-hint *ngIf="!quizForm.controls.name.valid">
+                    Quiz name is required (minimum 4 characters).
+                </md-hint>
+            </md-input>
+
+            <!-- Questions -->
+            <h3>Questions</h3>
+            <div formArrayName="questions">
+                <div *ngFor="let question of quizForm.controls.questions.controls; let i=index" class="question">
+                    <div [formGroupName]="i">
+                        <md-input placeholder="Question" formControlName="question" class="full-width"></md-input>
+                        <div formArrayName="answers">
+                            <div class="answer" *ngFor="let answer of question.controls.answers.controls; let j=index">
+                                <div [formGroupName]="j">
+                                    <md-input placeholder="Answer {{j + 1}}" formControlName="answer"></md-input>
+                                    <md-checkbox formControlName="right" (keypress)="checkRightAnswer(i)" (click)="checkRightAnswer(i)">is correct</md-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+        <md-card-actions>
+            <button md-raised-button (click)="addQuestion()">Add Question</button>
+            <button type="submit" md-raised-button [disabled]="!quizForm.valid" (click)="save(quizForm.value)">Save</button>
+        </md-card-actions>
+    </md-card>
+</form>

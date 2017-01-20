@@ -1,0 +1,31 @@
+.startPage {
+  width:70%;
+  left: 50%;
+  top: 50%;
+  margin:auto;
+
+  max-width:100%;
+  max-height:100%;
+  overflow:auto;
+  display: flex;
+}
+
+.gameInfo {
+  width: auto;
+  flex: 1;
+  display: inline-block;
+  margin: 10px;
+}
+
+.playerList {
+  width: auto;
+  flex: 1;
+  display: inline-block;
+  margin: 10px;
+}
+
+.player {
+  margin: 5px;
+  padding: 5px;
+  display: inline;
+}

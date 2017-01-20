@@ -1,0 +1,35 @@
+<div *ngIf="!this.showResult" class="quiz">
+    <h2>{{currentTimer}}</h2>
+    <div class="question">{{question}}</div>
+    <div class="answers">
+        <div class="row">
+            <button md-raised-button class="answer">{{answer1}}</button>
+            <button md-raised-button class="answer">{{answer2}}</button>
+        </div>
+        <div class="row">
+            <button md-raised-button class="answer">{{answer3}}</button>
+            <button md-raised-button class="answer">{{answer4}}</button>
+        </div>
+    </div>
+    <button type="submit" md-raised-button (click)="showResults(true)">Show Results</button>
+</div>
+<div *ngIf="this.showResult" class="results">
+    <div class="stats">
+        <h2>{{question}}</h2>
+        <bar-chart
+                [rightAnswer]="rightAnswer"
+                [answer1]="answer1"
+                [answer2]="answer2"
+                [answer3]="answer3"
+                [answer4]="answer4"
+                [votes1]="answerResults1"
+                [votes2]="answerResults2"
+                [votes3]="answerResults3"
+                [votes4]="answerResults4"></bar-chart>
+        <button type="submit" md-raised-button (click)="nextQuestion()">Next Question </button>
+    </div>
+    <div class="leaderboard">
+        <h2>Leaderboard</h2>
+        <leaderboard [players]="players"></leaderboard>
+    </div>
+</div>

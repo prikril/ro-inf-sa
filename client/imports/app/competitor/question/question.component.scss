@@ -1,0 +1,26 @@
+.quiz {
+  width:90%;
+  left: 50%;
+  top: 50%;
+  margin:auto;
+
+  max-width:100%;
+  max-height:100%;
+  overflow:auto;
+}
+.question {
+  border-style: solid;
+  padding: 30px;
+}
+.row {
+  display: flex;
+}
+.answer {
+  flex: 1;
+  width: auto;
+  margin: 10px;
+  padding: 20px;
+}
+.selected {
+  background-color: yellow;
+}
