@@ -80,7 +80,6 @@ export class BarChartComponent implements OnChanges{
     ngOnChanges(changes: SimpleChanges) {
         for (let propName in changes) {
             let chng = changes[propName];
-            console.log(propName + ': ' + chng.currentValue);
             switch (propName)
             {
                 case 'rightAnswer' :

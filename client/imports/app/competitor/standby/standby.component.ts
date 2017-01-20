@@ -89,10 +89,7 @@ export class StandbyComponent implements OnInit {
     }
 
     private quizStart(game : Game){
-        console.log("Quiz start?");
-        console.log(game);
         if(game != undefined && game.running) {
-            console.log("Quiz start!");
             this.router.navigateByUrl('competitor/question/'+this.playerId);
         }
     }

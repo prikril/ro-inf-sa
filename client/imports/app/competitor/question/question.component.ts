@@ -70,11 +70,7 @@ export class QuestionComponent implements OnInit {
                 this.answerGiven = true;
                 this.selectedAnswer = answer;
             }
-            console.log(success);
         });
-
-        console.log(this.playerId);
-
     }
 
     private getPlayerFromServer(playerId : string) : void {
@@ -118,7 +114,6 @@ export class QuestionComponent implements OnInit {
         if(game != undefined && game != null) {
             this.showResult = game.showResult;
             if(!this.showResult && game.currentQuestion != undefined){
-                console.log(game);
                 this.question = game.currentQuestion.question;
                 this.answer1 = game.currentQuestion.answers[0].answer;
                 this.answer2 = game.currentQuestion.answers[1].answer;
