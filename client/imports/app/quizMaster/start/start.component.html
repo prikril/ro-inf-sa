@@ -3,7 +3,9 @@
         <h3>{{quizName}}</h3>
         <p>This Quizza has {{questions}} question(s).</p>
         <p>The game ID for this Quizza is <b>{{gameNumber}}</b></p>
-        <input type="number" [(ngModel)]="timer">
+        <label>
+            Timer: <input type="number" [(ngModel)]="timer">
+        </label>
         <a (click)="startQuiz()" md-raised-button color="warn">Start Quizza</a>
     </div>
     <div class="playerList">

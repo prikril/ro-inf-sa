@@ -1,10 +1,7 @@
 .startPage {
   width:70%;
-  position: absolute;
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
   margin:auto;
 
   max-width:100%;
@@ -31,5 +28,4 @@
   margin: 5px;
   padding: 5px;
   display: inline;
-  background-color: crimson;
 }
